@@ -25,7 +25,7 @@ public class User extends StandardEntity {
     @Column(name = "GENDER")
     private String gender;
 
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", nullable = false)
     private String email;
 
     @Column(name = "PHONE_NUMBER")
@@ -35,16 +35,27 @@ public class User extends StandardEntity {
     private String description;
 
     @Column(name = "STATUS")
-    private Integer status;
+    private String status;
 
     @Column(name = "LAST_LOGIN")
     private LocalDate lastLogin;
 
-    @OneToMany(mappedBy = "user1")
+    @OneToMany(mappedBy = "user1", fetch = FetchType.LAZY)
     private List<Friendship> friendships;
 
     @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
     private List<Message> messages;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<UserRole> userRoles;
+
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
 
     public List<Message> getMessages() {
         return messages;
@@ -134,12 +145,12 @@ public class User extends StandardEntity {
         this.description = description;
     }
 
-    public Integer getStatus() {
-        return status;
+    public UserStatusEnum getStatus() {
+        return UserStatusEnum.fromId(status);
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setStatus(UserStatusEnum status) {
+        this.status = status == null ? null : status.getId();
     }
 
     public LocalDate getLastLogin() {
