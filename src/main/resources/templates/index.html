@@ -7,6 +7,6 @@
     <title>Welcome</title>
 </head>
 <body>
-    Welcome to MesStar!
+    Hi, <span th:text="${#authentication.getName()}">Username</span>. Welcome to MesStar! <button id="logout-btn"><a th:href="@{/logout}">Logout</a></button>
 </body>
 </html>

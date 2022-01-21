@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup to MesStar</title>
+</head>
+<body>
+    <form method="post" th:action="@{/signup}" th:object="${userDto}">
+        <label for="username">Username:</label>
+        <input id="username" placeholder="Username" th:field="*{username}" type="text"/><br>
+        <label for="password">Password:</label>
+        <input id="password" placeholder="Password" th:field="*{password}" type="text"/><br>
+        <label for="firstname">Firstname:</label>
+        <input id="firstname" placeholder="Firstname" th:field="*{firstName}" type="text"/><br>
+        <label for="lastname">Lastname:</label>
+        <input id="lastname" placeholder="Lastname" th:field="*{lastName}" type="text"/><br>
+        <label for="email">Email:</label>
+        <input id="email" placeholder="Email" th:field="*{email}" type="text"/><br>
+        <input id="submit-btn" type="submit" value="Submit"/>
+    </form>
+</body>
+</html>

@@ -11,7 +11,7 @@ public class Message extends StandardEntity {
     private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "ROOM", nullable = false)
+    @JoinColumn(name = "ROOM_ID", nullable = false)
     private Room room;
 
     @Column(name = "PINNED", nullable = false)
