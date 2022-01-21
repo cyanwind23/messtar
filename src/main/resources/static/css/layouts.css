@@ -1,0 +1,151 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.full-view {
+    width: 100vw;
+    height: 100vh;
+}
+
+.full-size {
+    width: 100%;
+    height: 100%;
+}
+
+.h-min {
+    height: min-content;
+}
+.h-maxctn {
+    height: max-content;
+}
+.to-btm {
+    margin-top: auto;
+}
+/*********************** Scrollbar ***********************/
+::-webkit-scrollbar {
+    width: 4px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 4px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(48, 48, 48);
+    border-radius: 4px;
+}
+/*********************** Flex Layout ***********************/
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    justify-content: center;
+}
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+/* flex-col center horizontal */
+.flc-center-h {
+    align-items: center;
+}
+.flc-center-v {
+    justify-content: center;
+}
+.flr-center-v {
+    align-items: center;
+}
+/* flex space between */
+.fl-sb {
+    justify-content: space-between;
+}
+.fl-e {
+    justify-content: flex-end;
+}
+.fl-s {
+    justify-content: flex-start;
+}
+.fl-crv {
+    flex-direction: column-reverse;
+}
+.fl-rrv {
+    flex-direction: row-reverse;
+}
+/*********************** Border ***********************/
+.bd-r10 {
+    border: 1px dashed rgba(0, 0, 0, 0.253);
+    border-radius: 10px;
+}
+
+/*********************** Padding & Margin ***********************/
+.no-pdmg {
+    padding: 0;
+    margin: 0;
+}
+.pd-10 {
+    padding: 10px;
+}
+.pd-r5 {
+    padding-right: 5px;
+}
+.pd-5-10 {
+    padding: 5px 10px;
+}
+.pd-5 {
+    padding: 5px;
+}
+.pd-bt-5 {
+    padding-bottom: 5px;
+}
+.pd-bt-10 {
+    padding-bottom: 10px;
+}
+.mg-bt-2 {
+    margin-bottom: 2px;
+}
+.mg-bt-5 {
+    margin-bottom: 5px;
+}
+.mg-bt-10 {
+    margin-bottom: 10px;
+}
+.mg-r-10 {
+    margin-right: 10px;
+}
+.mg-l-5 {
+    margin-left: 5px;
+}
+.mg-l-10 {
+    margin-left: 10px;
+}
+.mg-t-10 {
+    margin-top: 10px;
+}
+/*********************** Display ***********************/
+.hidden {
+    display: none;
+}
+
+/* *********************** Text ***********************/
+.fs-s {
+    font-size: 14px;
+}
+.fs-m {
+    font-size: 20px;
+}
+.txt-r {
+    text-align: right;
+}
+
+/** *********************** Overflow ***********************/
+.ovfl-scr {
+    overflow-y: scroll;
+}
+.ovfl-at {  
+    overflow: auto;
+}

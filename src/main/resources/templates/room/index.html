@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/layouts.css">
+    <link rel="stylesheet" href="/css/colors.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/room/messtar.css">
+    <title>Room</title>
+</head>
+<body class="darkgray-2">
+    <div class="flex-row full-view">
+        <div id="msr-sbm" class="darkgray flex-col fl-sb flc-center-h">
+            <div class="bd-r10 btn-icon">
+                <img src="/img/profile.png" alt="" class="icon">
+            </div>
+            <div>
+                <div class="bd-r10 btn-icon mg-bt-5">
+                    <img src="/img/messages.png" alt="" class="icon">
+                </div>
+                <div class="bd-r10 btn-icon mg-bt-5">
+                    <img src="/img/groups.png" alt="" class="icon">
+                </div>
+                <div class="bd-r10 btn-icon">
+                    <img src="/img/robot.png" alt="" class="icon">
+                </div>
+            </div>
+            <div class="bd-r10 btn-icon">
+                <img src="/img/settings.png" alt="" class="icon">
+            </div>
+        </div>
+        <!-- Sidebar list -->
+        <div id="msr-sbl" class="flex-col pd-10 darkgray-1">
+            <div class=" flex-row fl-sb mg-bt-5">
+                <h2 class="no-pdmg pd-bt-10">Messages</h2>
+                <div class="flex-row pd-5">
+                    <img src="/img/plus.png" alt="" class="icon-xs mg-r-10">
+                    <img src="/img/search.png" alt="" class="icon-xs">
+                </div>
+            </div>
+            <div class="hidden">search</div>
+            <div id="msr-cl" class="flex-col mg-t-10 pd-r5 ovfl-at">
+                <div class="bd-r10 menu-item card">
+                    <div class="mg-r-10">
+                        <img src="/img/messages.png" alt="" class="icon-s">
+                    </div>
+                    <div>
+                        <h4 class="no-pdmg fs-16">Room 1</h4>
+                        <p class="no-pdmg fs-s">Lorem ipsum dolor sit</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Chat zone -->
+        <div id="msr-cz" class="flex-col">
+            <!-- Room Chat Title -->
+            <div id="msr-ctn-ct" class="darkgray-2 flex-row flr-center-v fl-sb pd-5-10">
+                <div id="msr-ct" class="flex-row flr-center-v bd-r10 pd-5-10 btn">
+                    <div class="mg-r-10 to-btm">
+                        <img src="/img/down-chevron.png" alt="" class="icon-xs">
+                    </div>
+                    <div class="">
+                        <h4 class="no-pdmg fs-16">Room 1</h4>
+                        <p class="no-pdmg fs-s">Lorem ipsum dolor sit</p>
+                    </div>
+                </div>
+                <div class="bd-r5">
+                    <div id="msr-btn-ri" class="flex-row fl-sb">
+                        <img src="/img/group.png" alt="" class="icon-xs btn">
+                        <img src="/img/search.png" alt="" class="icon-xs btn">
+                    </div>
+                </div>
+                <div id="msr-ct-menu" style="z-index: 3; position: absolute; top: 0; left: 0; backdrop-filter: blur(3px);" 
+                class="flex-row flr-center-v full-view">
+                    <div style="height: min-content; width: 400px;" 
+                        class="darkgray-1 bd-r10 pd-5">
+                        <div id="msr-ct-menu-x" class="pd-5 txt-r btn">
+                            <img src="/img/up-chevron.png" alt="" class="icon-xs">
+                        </div>
+                        <div class="bd-r10 pd-5 card">
+                            <div class="mg-r-10 bd-r10">
+                                <img src="/img/groups.png" alt="" class="icon-l">
+                            </div>
+                            <div>
+                                <h3 class="no-pdmg">Room 1</h3>
+                                <p class="no-pdmg">Lorem ipsum dolor sit</p>
+                            </div>
+                        </div>
+                        <div class="bd-r10 pd-5">Menu 2</div>
+                        <div class="bd-r10 pd-5">Menu 3</div>
+                        <div class="bd-r10 pd-5">Menu 4</div>
+                        <div class="bd-r10 pd-5">Menu 5</div>
+                    </div>
+                </div>
+            </div>
+            <div id="msr-cv" class="ovfl-at">
+                <div class="flex-row mg-bt-5" >
+                    <div class="mg-l-5 mg-bt-5 bd-r10 to-btm">
+                        <img src="/img/messages.png" alt="" class="icon-s">
+                    </div>
+                    <div class="msr-mgr full-size pd-5">
+                        <div class="flex-row bd-r10 msr-mess">
+                            <div class="bd-r10 msr-mess-ct">
+                                contentcontentcontentcontent<br>
+                                hello
+                            </div>
+                            <div class="msr-mess-rpl pd-r5 to-btm">
+                                <img src="/img/reply.png" alt="" class="icon-xxs btn">
+                            </div>
+                            <div class="msr-mess-mn to-btm">
+                                <img src="/img/more.png" alt="" class="icon-xxs btn">
+                            </div>
+                            <div class="msr-mess-t to-btm h-min txt-r">
+                                time
+                            </div>
+                        </div>
+                        <div class="flex-row bd-r10 msr-mess">
+                            <div class="bd-r10 msr-mess-ct">
+                                content
+                            </div>
+                            <div class="msr-mess-rpl pd-r5 to-btm">
+                                <img src="/img/reply.png" alt="" class="icon-xxs btn">
+                            </div>
+                            <div class="msr-mess-mn to-btm">
+                                <img src="/img/more.png" alt="" class="icon-xxs btn">
+                            </div>
+                            <div class="msr-mess-t to-btm h-min txt-r">
+                                time
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-row mg-bt-5">
+                    <div class="msr-mgr full-size pd-5">
+                        <div class="flex-row fl-rrv bd-r10 msr-mess">
+                            <div class="bd-r10 msr-mess-ct ">contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent</div>
+                            <div class="msr-mess-rpl pd-r5 to-btm">
+                                <img src="/img/reply.png" alt="" class="icon-xxs btn">
+                            </div>
+                            <div class="msr-mess-mn to-btm">
+                                <img src="/img/more.png" alt="" class="icon-xxs btn">
+                            </div>
+                            <div class="msr-mess-t to-btm h-min">
+                                time
+                            </div>
+                        </div>
+                        <div class="flex-row fl-rrv bd-r10 msr-mess">
+                            <div class="bd-r10 msr-mess-ct ">
+                                contentcontentcontentcontent<br>
+                                hello
+                            </div>
+                            <div class="msr-mess-rpl pd-r5 to-btm">
+                                <img src="/img/reply.png" alt="" class="icon-xxs btn">
+                            </div>
+                            <div class="msr-mess-mn to-btm">
+                                <img src="/img/more.png" alt="" class="icon-xxs btn">
+                            </div>
+                            <div class="msr-mess-t to-btm h-min">
+                                time
+                            </div>
+                        </div>
+                        <div class="flex-row fl-rrv bd-r10 msr-mess">
+                            <div class="bd-r10 msr-mess-ct ">
+                                content
+                            </div>
+                            <div class="msr-mess-rpl pd-r5 to-btm">
+                                <img src="/img/reply.png" alt="" class="icon-xxs btn">
+                            </div>
+                            <div class="msr-mess-mn to-btm">
+                                <img src="/img/more.png" alt="" class="icon-xxs btn">
+                            </div>
+                            <div class="msr-mess-t to-btm h-min">
+                                time
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="msr-ctn-cb" class="darkgray">
+                <div id="msr-cb" class="flex-row bd-r10">
+                    <div id="msr-cd-emoji">
+                        <img src="/img/plus.png" alt="" class="icon-xs">
+                    </div>
+                    <div id="msr-cb-input" class="ovfl-at" contenteditable="true"></div>
+                    <div id="msr-cb-placeholder">
+                        <span>Aa</span>
+                    </div>
+                    <div>
+                        <img src="/img/smile.png" alt="" class="icon-xs">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Room details  -->
+        <div id="msr-ri" class="ovfl-at">
+            <h3 class="no-pdmg">Thanh vien doan chat</h3>
+            <div>
+                <h3 class="no-pdmg">Online</h3>
+                <div class="bd-r10 menu-item card">
+                    <div class="mg-r-10">
+                        <img src="/img/messages.png" alt="" class="icon-s">
+                    </div>
+                    <div>
+                        <h4 class="no-pdmg fs-16">Room 1</h4>
+                        <p class="no-pdmg fs-s">Lorem ipsum dolor sit</p>
+                    </div>
+                </div>
+                <div class="bd-r10 menu-item card">
+                    <div class="mg-r-10">
+                        <img src="/img/messages.png" alt="" class="icon-s">
+                    </div>
+                    <div>
+                        <h4 class="no-pdmg fs-16">Room 1</h4>
+                        <p class="no-pdmg fs-s">Lorem ipsum dolor sit</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3 class="no-pdmg">Offline</h3>
+                <div class="bd-r10 menu-item card">
+                    <div class="mg-r-10">
+                        <img src="/img/messages.png" alt="" class="icon-s">
+                    </div>
+                    <div>
+                        <h4 class="no-pdmg fs-16">Room 1</h4>
+                        <p class="no-pdmg fs-s">Lorem ipsum dolor sit</p>
+                    </div>
+                </div>
+                <div class="bd-r10 menu-item card">
+                    <div class="mg-r-10">
+                        <img src="/img/messages.png" alt="" class="icon-s">
+                    </div>
+                    <div>
+                        <h4 class="no-pdmg fs-16">Room 1</h4>
+                        <p class="no-pdmg fs-s">Lorem ipsum dolor sit</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/room.js"></script>
+</body>
+</html>

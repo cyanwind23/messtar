@@ -8,6 +8,7 @@ public class MesstarApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MesstarApplication.class, args);
+		System.out.println("Hello World - MesStar!");
 	}
 
 }
