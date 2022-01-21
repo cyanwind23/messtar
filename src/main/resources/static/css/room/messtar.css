@@ -1,0 +1,83 @@
+/* MesStar ids  */
+
+/* MesStar SideBar Menu */
+#msr-sbm {
+    width: min-content;
+    padding: 10px 5px;
+}
+
+/* MesStar SideBar List */
+#msr-sbl {
+    width: 260px;
+}
+#msr-cl {
+}
+/* MesStar Chat Zone */
+#msr-cz {
+    flex: auto;
+}
+/* MesStar SideBar Room Info */
+#msr-ri {
+    width: 240px;
+}
+#msr-btn-ri {
+    width: 55px;
+}
+/* MesStar ChatTitle */
+#msr-ctn-ct {
+    height: 55px;
+}
+/* MesStar ChatView */
+#msr-cv {
+    flex: auto;
+}
+
+/* MesStar ChatBox */
+#msr-ctn-cb {
+    padding: 5px 0 20px;
+    height: min-content;
+}
+#msr-cb {
+    margin: 0 10px;
+    height: min-content;
+    padding: 12px 10px 10px;
+    justify-content: flex-start;
+}
+#msr-cb-input {
+    flex: auto;
+    outline: none;
+    margin: 0 15px;
+    padding-top: 2px;
+    max-width: 670px;
+    max-height: 200px;
+    display: block;
+    z-index: 1;
+}
+
+#msr-cb-placeholder {
+    color: #aaa;
+    position: absolute;
+    margin-left: 37px;
+    margin-top: 2px;
+    z-index: 0;
+}
+
+/*********************** MesStar class ***********************/
+
+
+/*********************** MesStar Message ***********************/
+.msr-mess {
+    margin-bottom: 2px;
+}
+.msr-mess > * {
+    padding: 6px 8px;
+}
+.msr-mess-t {
+    flex: auto;
+}
+.msr-mess-ct {
+    max-width: 500px;
+    word-wrap: break-word;
+}
+
+/*********************** MesStar Button ***********************/

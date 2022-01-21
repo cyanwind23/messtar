@@ -1,0 +1,45 @@
+.icon {
+    width: 45px;
+    height: 45px;
+}
+.icon-xxs {
+    width: 15px;
+    height: 15px;
+}
+.icon-xs {
+    width: 22px;
+    height: 22px;
+}
+.icon-s {
+    width: 35px;
+    height: 35px;
+}
+.icon-m {
+    width: 55px;
+    height: 55px;
+}
+.icon-l {
+    width: 85px;
+    height: 85px;
+}
+.btn-icon {
+    width: 45px;
+    height: 45px;
+    padding: 3px;
+    cursor: pointer;
+}
+.btn {
+    cursor: pointer;
+    padding: 3;
+}
+.menu-item {
+    cursor: pointer;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+    margin-bottom: 5px;
+}
