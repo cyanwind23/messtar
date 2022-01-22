@@ -1,12 +1,18 @@
 const elmId = (id) => document.getElementById(id);
 const elmClass = (className) => document.getElementsByClassName(className);
 
-var input = elmId('msr-cb-input');
-var placeholder = elmId('msr-cb-placeholder');
-var chatTitleBtn = elmId('msr-ct');
-var chatTitleMenu = elmId('msr-ct-menu');
-var chatTitleMenuCloseBtn = elmId('msr-ct-menu-x');
+let input = elmId('msr-cb-input');
+let placeholder = elmId('msr-cb-placeholder');
+let chatTitleBtn = elmId('msr-ct');
+let chatTitleMenu = elmId('msr-ct-menu');
+let chatTitleMenuCloseBtn = elmId('msr-ct-menu-x');
 
+// room icon
+let messtarRoomBtn = elmId("messtar-room-icon-btn");
+
+/**
+ * Event listeners
+ */
 input.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
@@ -28,4 +34,12 @@ chatTitleBtn.addEventListener("click", (e) => {
 
 chatTitleMenuCloseBtn.addEventListener("click", (e) => {
     chatTitleMenu.classList.add('hidden');
+});
+
+// room icon
+messtarRoomBtn.addEventListener("click", (e) => {
+    let currentPathName = window.location.pathname;
+    if (currentPathName !== "/room/messtar") {
+        window.location.href = "/room/messtar";
+    }
 });

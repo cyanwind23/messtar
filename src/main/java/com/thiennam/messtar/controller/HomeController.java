@@ -19,7 +19,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String index() {
-        return "index";
+        return "room/index";
     }
 
     @GetMapping("/login")
