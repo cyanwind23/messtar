@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service(value = RoomService.NAME)
 public class RoomServiceBean implements RoomService {
@@ -70,5 +68,11 @@ public class RoomServiceBean implements RoomService {
             rooms.add(roomUser.getRoom());
         }
         return rooms;
+    }
+
+    @Override
+    public Room findById(UUID toRoomId) {
+        Optional<Room> res = roomRepository.findById(toRoomId);
+        return res.orElse(null);
     }
 }
