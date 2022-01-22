@@ -2,12 +2,13 @@ package com.thiennam.messtar.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "MESSTAR_ROOM")
 @Entity(name = "messtar_Room")
 public class Room extends StandardEntity {
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "NAME")
     private String name;
 
     @Column(name = "TYPE", nullable = false)
@@ -22,6 +23,17 @@ public class Room extends StandardEntity {
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private List<Message> messages;
 
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    private List<RoomUser> roomUsers = new ArrayList<>();
+
+    public List<RoomUser> getRoomUsers() {
+        return roomUsers;
+    }
+
+    public void setRoomUsers(List<RoomUser> roomUsers) {
+        this.roomUsers = roomUsers;
+    }
+
     public String getName() {
         return name;
     }
@@ -30,12 +42,12 @@ public class Room extends StandardEntity {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public RoomTypeEnum getType() {
+        return RoomTypeEnum.fromId(type);
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(RoomTypeEnum type) {
+        this.type = type == null ? null : type.getId();
     }
 
     public String getDescription() {

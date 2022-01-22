@@ -1,4 +1,4 @@
-package com.thiennam.messtar.entity;
+package com.thiennam.messtar.entity.dto;
 
 public class UserDto {
     private String username;
