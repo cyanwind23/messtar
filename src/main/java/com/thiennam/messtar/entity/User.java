@@ -2,6 +2,7 @@ package com.thiennam.messtar.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "MESSTAR_USER")
@@ -48,6 +49,17 @@ public class User extends StandardEntity {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<UserRole> userRoles;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<RoomUser> roomUsers = new ArrayList<>();
+
+    public List<RoomUser> getRoomUsers() {
+        return roomUsers;
+    }
+
+    public void setRoomUsers(List<RoomUser> roomUsers) {
+        this.roomUsers = roomUsers;
+    }
 
     public List<UserRole> getUserRoles() {
         return userRoles;

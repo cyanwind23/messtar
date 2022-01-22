@@ -1,6 +1,7 @@
 package com.thiennam.messtar.service.bean;
 
 import com.thiennam.messtar.entity.*;
+import com.thiennam.messtar.entity.dto.UserDto;
 import com.thiennam.messtar.repository.UserRepository;
 import com.thiennam.messtar.service.RoleService;
 import com.thiennam.messtar.service.UserService;

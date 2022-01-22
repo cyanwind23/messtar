@@ -1,7 +1,7 @@
 package com.thiennam.messtar.controller;
 
 import com.thiennam.messtar.entity.User;
-import com.thiennam.messtar.entity.UserDto;
+import com.thiennam.messtar.entity.dto.UserDto;
 import com.thiennam.messtar.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

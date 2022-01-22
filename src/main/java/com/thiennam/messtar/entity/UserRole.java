@@ -5,11 +5,11 @@ import javax.persistence.*;
 @Table(name = "MESSTAR_USER_ROLE")
 @Entity(name = "messtar_UserRole")
 public class UserRole extends StandardEntity {
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "ROLE_ID", nullable = false)
     private Role role;
 

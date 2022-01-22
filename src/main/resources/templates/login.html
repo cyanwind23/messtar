@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Login to MesStar</title>
 </head>
 <body>
-    <h1>Login form</h1>
-    <form id="login-form" th:action="@{/login}" method="post">
-        <div th:if="${param.error}" class="alert alert-error">
-            Invalid username or password.
-        </div>
-        <div th:if="${param.logout}" class="alert alert-success">
-            You have been logged out.
-        </div>
-        <input id="username" name="username" placeholder="Username" type="text" required/><br>
-        <input id="password" name="password" placeholder="Password" type="password" required/>
-        <input id="submit-btn" type="submit" value="Login"/>
-    </form>
-    <button id="signup-btn"><a th:href="@{/signup}">Sign up</a></button>
+    <div sec:authorize="isAuthenticated()">Ban da dang nhap roi. Click vào <a th:href="@{/}">đây</a> để quay về trang chủ nhé!</div>
+    <div sec:authorize="isAnonymous()">
+        <h1>Login form</h1>
+        <form id="login-form" th:action="@{/login}" method="post">
+            <div th:if="${param.error}" class="alert alert-error">
+                Invalid username or password.
+            </div>
+            <div th:if="${param.logout}" class="alert alert-success">
+                You have been logged out.
+            </div>
+            <input id="username" name="username" placeholder="Username" type="text" required/><br>
+            <input id="password" name="password" placeholder="Password" type="password" required/>
+            <input id="submit-btn" type="submit" value="Login"/>
+        </form>
+        <button id="signup-btn"><a th:href="@{/signup}">Sign up</a></button>
+    </div>
+
 </body>
 </html>

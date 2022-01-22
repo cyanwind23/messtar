@@ -28,12 +28,12 @@ public class Friendship extends StandardEntity {
         this.user2 = user2;
     }
 
-    public String getType() {
-        return type;
+    public FriendshipTypeEnum getType() {
+        return FriendshipTypeEnum.fromId(type);
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(FriendshipTypeEnum type) {
+        this.type = type == null ? null : type.getId();
     }
 
     public LocalDateTime getCreatedTime() {

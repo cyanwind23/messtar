@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add friend</title>
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta th:name="_logged_username" th:content="${#authentication.getName()}"/>
+</head>
+<body>
+    <label for="username">Username:</label>
+    <input id="username" placeholder="Username" type="text"/><br>
+    <input id="submit-btn" type="submit" value="Submit"/>
+</body>
+<script>
+    let submitBtn = document.querySelector("#submit-btn");
+
+    const sendRequest = () => {
+        let token = document.querySelector("meta[name='_csrf']").getAttribute("content");
+        let header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+        let loggedUser = document.querySelector("meta[name='_logged_username']").getAttribute("content");
+        let userToAdd = document.querySelector("#username").value;
+        let requestBody = {
+            "loggedUser" : loggedUser,
+            "userToAdd" : userToAdd
+        }
+        let destination = "/addfriend";
+        // create request object
+        let request = new Request(destination, {
+            method: 'POST',
+            body: JSON.stringify(requestBody),
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': token,
+            })
+        });
+
+        // pass request object to `fetch()`
+        fetch(request)
+            .then(res => res.json())
+            .then(res => console.log(res));
+
+    }
+
+    submitBtn.addEventListener("click", sendRequest);
+</script>
+</html>
