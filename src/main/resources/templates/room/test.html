@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta th:name="_logged_username" th:content="${#authentication.getName()}"/>
+    <!-- Library for SockJS and Stomp -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+
+</body>
+<script>
+    // init value
+    let token = document.querySelector("meta[name='_csrf']").getAttribute("content");
+    let header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+    let loggedUser = document.querySelector("meta[name='_logged_username']").getAttribute("content");
+    let listRoom;
+    //
+
+    const subscribe = () => {
+        var socket = new SockJS('http://localhost:8080/chat');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, onConnected, onError);
+    }
+    //
+    const onReceive = response => {
+        console.log(response);
+    }
+    const onError = () => {
+        console.log("Connect to Room: " + roomId + "failed!");
+    }
+    const onConnected = () => {
+        // Subscribe for room
+        listRoom.forEach(roomId => {
+            stompClient.subscribe("/room/" + roomId, onReceive);
+        })
+
+        // Subscribe for notification
+        stompClient.subscribe("/user/queue/message", onReceive);
+    }
+    //
+    const sendRequest = () => {
+        let destination = "/fetchallroom/" + loggedUser;
+        // create request object
+        let request = new Request(destination, {
+            method: 'GET',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': token,
+            })
+        });
+
+        // pass request object to `fetch()`
+        fetch(request)
+            .then(res => res.json())
+            .then(res => {
+                listRoom = res;
+                subscribe();
+                console.log(res)
+            });
+    }
+    sendRequest();
+</script>
+</html>
