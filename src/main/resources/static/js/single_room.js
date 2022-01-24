@@ -7,7 +7,10 @@ let toUser; // use it for quickly send message in SINGLE room
 let paths = window.location.pathname.split("/")
 fetch("/room/context/" + paths[paths.length - 1])
     .then(res => res.json())
-    .then(res => roomContext = res);
+    .then(res => {
+        roomContext = res;
+        // diplayRoomInfo();
+    });
 
 /** navigating rooms - room list **/
 let roomList = document.querySelectorAll(".js-room");
@@ -35,7 +38,10 @@ const sendRequest = (destination, body) => {
         .then(res => res.json())
         .then(res => console.log(res));
 }
-
+const validateInput = text => {
+    // TODO: `text` need to be validated stronger
+    return text.trim();
+}
 const sendMess = text => {
     if (!toUser) {
         for (let user of roomContext.room.roomUsers) {
@@ -45,15 +51,17 @@ const sendMess = text => {
         }
     }
 
-    // TODO: `text` need to be validated
+    text = validateInput(text);
+    console.log(text);
     if (text.length < 1) {return;}
     let message = {
         "sender": roomContext.loggedUser,
-        "room_id": null,
-        "to_username": toUser,
+        "roomId": roomContext.room.roomId,
+        "toUser": toUser,
         "type": "TEXT",
         "content": text
     }
+    console.log(message);
     sendRequest("/send/user/", message);
 }
 
@@ -61,8 +69,14 @@ const sendMess = text => {
 // Just subscribe to user and all multiple rooms
 let stompClient;
 let multipleRooms;
+const displayMessage = message => {
+    let mess = elmClass("msr-mess-ct")[0];
+    mess.innerText = message.content;
+}
+
 const onReceive = response => {
     console.log(response);
+    displayMessage(JSON.parse(response.body));
 }
 const onError = () => {
     console.log("Connect to Room: failed!");
@@ -70,7 +84,7 @@ const onError = () => {
 const onConnected = options => {
     // Subscribe for room
     multipleRooms.forEach(room => {
-        stompClient.subscribe("/room/" + room.room_id, onReceive);
+        stompClient.subscribe("/room/" + room.roomId, onReceive);
     })
 
     // Subscribe for notification
@@ -96,8 +110,8 @@ let placeholder = elmId('msr-cb-placeholder');
 input.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
-        sendMess(input.innerHTML);
-        input.innerHTML = "";
+        sendMess(input.innerText);
+        input.innerText = "";
         placeholder.classList.remove('hidden');
     }
 });

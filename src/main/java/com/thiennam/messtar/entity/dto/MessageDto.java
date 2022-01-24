@@ -4,22 +4,22 @@ import com.google.gson.annotations.SerializedName;
 
 public class MessageDto {
     @SerializedName("sender")
-    private String senderName;
-    @SerializedName("room_id")
+    private String sender;
+    @SerializedName("roomId")
     private String toRoomId;
-    @SerializedName("to_username")
-    private String toUsername;
+    @SerializedName("toUser")
+    private String toUser;
     @SerializedName("type")
     private String type;
     @SerializedName("content")
     private String content;
 
-    public String getSenderName() {
-        return senderName;
+    public String getSender() {
+        return sender;
     }
 
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 
     public String getToRoomId() {
@@ -30,12 +30,12 @@ public class MessageDto {
         this.toRoomId = toRoomId;
     }
 
-    public String getToUsername() {
-        return toUsername;
+    public String getToUser() {
+        return toUser;
     }
 
-    public void setToUsername(String toUsername) {
-        this.toUsername = toUsername;
+    public void setToUser(String toUser) {
+        this.toUser = toUser;
     }
 
     public String getType() {
