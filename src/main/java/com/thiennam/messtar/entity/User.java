@@ -1,5 +1,7 @@
 package com.thiennam.messtar.entity;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -52,6 +54,17 @@ public class User extends StandardEntity {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<RoomUser> roomUsers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<UserMessage> userMessages = new ArrayList<>();
+
+    public List<UserMessage> getUserMessages() {
+        return userMessages;
+    }
+
+    public void setUserMessages(List<UserMessage> userMessages) {
+        this.userMessages = userMessages;
+    }
 
     public List<RoomUser> getRoomUsers() {
         return roomUsers;
@@ -175,5 +188,14 @@ public class User extends StandardEntity {
 
     public String getName() {
         return this.firstName + " " + this.lastName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof User) {
+            User other = (User) o;
+            return username.equals(other.username);
+        }
+        return false;
     }
 }

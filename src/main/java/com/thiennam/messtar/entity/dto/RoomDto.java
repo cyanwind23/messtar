@@ -8,17 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomDto {
-    @SerializedName("room_id")
+    @SerializedName("roomId")
     private String roomId;
-    @SerializedName("room_name")
+    @SerializedName("roomName")
     private String name;
     @SerializedName("type")
     private String type;
     @SerializedName("description")
     private String description;
-    @SerializedName("created_time")
+    @SerializedName("createdTime")
     private LocalDateTime createdTime;
-    @SerializedName("last_active")
+    @SerializedName("lastActive")
     private LocalDateTime lastActive;
 
     private List<Message> messages;

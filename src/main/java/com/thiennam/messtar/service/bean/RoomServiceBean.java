@@ -157,4 +157,9 @@ public class RoomServiceBean implements RoomService {
         roomUser.setRoom(room);
         return roomUser;
     }
+
+    @Override
+    public List<RoomUser> findUsersByRoom(Room room) {
+        return roomUserRepository.findByRoom(room);
+    }
 }

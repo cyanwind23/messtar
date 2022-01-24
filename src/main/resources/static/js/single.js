@@ -24,7 +24,7 @@ for (let room of roomList) {
 // const displayRoomList = rooms => {
 //     let roomList = elmId("msr-cl");
 //     for (let room of rooms) {
-//         roomList.innerHTML += new RoomCard("", room.room_id).toDOM();
+//         roomList.innerHTML += new RoomCard("", room.roomId).toDOM();
 //     }
 // }
 

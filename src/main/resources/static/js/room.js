@@ -78,7 +78,7 @@ const sendMess = text => {
     if (text.length < 1) {return;}
     let message = {
         "sender": roomContext.loggedUser,
-        "room_id": null,
+        "roomId": null,
         "to_username": toUser,
         "type": "TEXT",
         "content": text

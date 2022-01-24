@@ -9,4 +9,6 @@ public interface MessageService {
     MessageDto toMessageDto(Message message);
 
     Message toMessage(MessageDto messageDto);
+
+    void saveFromDto(MessageDto messageDto);
 }

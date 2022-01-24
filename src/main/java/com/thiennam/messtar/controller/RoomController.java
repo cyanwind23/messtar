@@ -71,6 +71,7 @@ public class RoomController {
         }
         List<RoomDto> roomDtos = roomService.toDto(rooms);
         model.addAttribute("rooms", roomDtos);
+        model.addAttribute("thisRoom", thisRoom);
         return "room/single-room";
     }
 

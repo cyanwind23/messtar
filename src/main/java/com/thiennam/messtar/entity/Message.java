@@ -2,6 +2,8 @@ package com.thiennam.messtar.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "MESSTAR_MESSAGE")
 @Entity(name = "messtar_Message")
@@ -29,6 +31,17 @@ public class Message extends StandardEntity {
     @Column(name = "CREATED_TIME", nullable = false)
     private LocalDateTime createdTime;
 
+    @OneToMany(mappedBy = "message", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<UserMessage> userMessages = new ArrayList<>();
+
+    public List<UserMessage> getUserMessages() {
+        return userMessages;
+    }
+
+    public void setUserMessages(List<UserMessage> userMessages) {
+        this.userMessages = userMessages;
+    }
+
     public Room getRoom() {
         return room;
     }
@@ -53,12 +66,12 @@ public class Message extends StandardEntity {
         this.pinned = pinned;
     }
 
-    public String getType() {
-        return type;
+    public MessageTypeEnum getType() {
+        return MessageTypeEnum.fromId(type);
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(MessageTypeEnum type) {
+        this.type = type == null ? null : type.getId();
     }
 
     public String getContent() {

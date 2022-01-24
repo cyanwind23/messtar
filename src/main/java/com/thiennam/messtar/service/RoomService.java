@@ -2,6 +2,7 @@ package com.thiennam.messtar.service;
 
 import com.thiennam.messtar.entity.Room;
 import com.thiennam.messtar.entity.RoomTypeEnum;
+import com.thiennam.messtar.entity.RoomUser;
 import com.thiennam.messtar.entity.User;
 import com.thiennam.messtar.entity.dto.RoomDto;
 
@@ -26,4 +27,6 @@ public interface RoomService {
     List<RoomDto> toDto(List<Room> rooms);
 
     RoomDto toDto(Room room);
+
+    List<RoomUser> findUsersByRoom(Room room);
 }

@@ -10,4 +10,6 @@ import java.util.UUID;
 
 public interface RoomUserRepository extends JpaRepository<RoomUser, UUID> {
     List<RoomUser> findByUser(User user);
+
+    List<RoomUser> findByRoom(Room room);
 }
