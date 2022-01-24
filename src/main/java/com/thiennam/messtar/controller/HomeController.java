@@ -1,8 +1,6 @@
 package com.thiennam.messtar.controller;
 
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.thiennam.messtar.entity.Room;
 import com.thiennam.messtar.entity.User;
 import com.thiennam.messtar.entity.dto.UserDto;
@@ -28,7 +26,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String index() {
-        return "room/index";
+        return "index";
     }
 
     @GetMapping("/login")
@@ -38,7 +36,7 @@ public class HomeController {
 
     @GetMapping("/room")
     public String room() {
-        return "room/index";
+        return "single-room";
     }
 
     @GetMapping("/signup")

@@ -56,7 +56,7 @@ public class MessageController {
 //        messageService.save(message);
 
         UUID toRoomId = UUID.fromString(messageDto.getToRoomId());
-        Room room = roomService.findById(toRoomId);
+//        Room room = roomService.findById(toRoomId);
 //        room.setLastChange(LocalDateTime.now());
 //        roomService.save(room);
         simpMessagingTemplate.convertAndSend("/room/" + toRoomId, messageDto);

@@ -20,11 +20,23 @@ public class Room extends StandardEntity {
     @Column(name = "CREATED_TIME", nullable = false)
     private LocalDateTime createdTime;
 
+
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private List<Message> messages;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<RoomUser> roomUsers = new ArrayList<>();
+
+    @Column(name = "LAST_ACTIVE")
+    private LocalDateTime lastActive;
+
+    public LocalDateTime getLastActive() {
+        return lastActive;
+    }
+
+    public void setLastActive(LocalDateTime lastActive) {
+        this.lastActive = lastActive;
+    }
 
     public List<RoomUser> getRoomUsers() {
         return roomUsers;

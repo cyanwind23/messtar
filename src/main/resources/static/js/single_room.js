@@ -1,41 +1,15 @@
 const elmId = (id) => document.getElementById(id);
 const elmClass = (className) => document.getElementsByClassName(className);
 
+/** Load context **/
 let roomContext;
-let toUser; // use it for quckly send message in SINGLE room
+let toUser; // use it for quickly send message in SINGLE room
 let paths = window.location.pathname.split("/")
 fetch("/room/context/" + paths[paths.length - 1])
     .then(res => res.json())
     .then(res => roomContext = res);
 
-let input = elmId('msr-cb-input');
-let placeholder = elmId('msr-cb-placeholder');
-// let chatTitleBtn = elmId('msr-ct');
-// let chatTitleMenu = elmId('msr-ct-menu');
-// let chatTitleMenuCloseBtn = elmId('msr-ct-menu-x');
-//
-// // room icon
-// let messtarRoomBtn = elmId("messtar-room-icon-btn");
-//
-
-
-// chatTitleBtn.addEventListener("click", (e) => {
-//     chatTitleMenu.classList.toggle('hidden');
-// });
-//
-// chatTitleMenuCloseBtn.addEventListener("click", (e) => {
-//     chatTitleMenu.classList.add('hidden');
-// });
-//
-// // room icon
-// messtarRoomBtn.addEventListener("click", (e) => {
-//     let currentPathName = window.location.pathname;
-//     if (currentPathName !== "/room/messtar") {
-//         window.location.href = "/room/messtar";
-//     }
-// });
-
-// navigating rooms
+/** navigating rooms - room list **/
 let roomList = document.querySelectorAll(".js-room");
 for (let room of roomList) {
     room.addEventListener("click", () => {
@@ -46,9 +20,8 @@ for (let room of roomList) {
     });
 }
 
-// fetch room info
+/** Define POST fetch function **/
 let csrfToken = elmId("_csrf").value;
-
 const sendRequest = (destination, body) => {
     let request = new Request(destination, {
         method: 'POST',
@@ -58,8 +31,6 @@ const sendRequest = (destination, body) => {
         }),
         body: JSON.stringify(body)
     });
-    // console.log(request);
-    // pass request object to `fetch()`
     fetch(request)
         .then(res => res.json())
         .then(res => console.log(res));
@@ -67,7 +38,7 @@ const sendRequest = (destination, body) => {
 
 const sendMess = text => {
     if (!toUser) {
-        for (user of roomContext.room.roomUsers) {
+        for (let user of roomContext.room.roomUsers) {
             if (user !== roomContext.loggedUser) {
                 toUser = user;
             }
@@ -86,9 +57,42 @@ const sendMess = text => {
     sendRequest("/send/user/", message);
 }
 
+/** Subscribe all chanels **/
+// Just subscribe to user and all multiple rooms
+let stompClient;
+let multipleRooms;
+const onReceive = response => {
+    console.log(response);
+}
+const onError = () => {
+    console.log("Connect to Room: failed!");
+}
+const onConnected = options => {
+    // Subscribe for room
+    multipleRooms.forEach(room => {
+        stompClient.subscribe("/room/" + room.room_id, onReceive);
+    })
+
+    // Subscribe for notification
+    stompClient.subscribe("/user/queue/message", onReceive);
+}
+const subscribe = () => {
+    const socket = new SockJS('http://localhost:8080/chat');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, onConnected, onError);
+}
+fetch("/room/multiple/getrooms")
+    .then(res => res.json())
+    .then(res => {
+        multipleRooms = res;
+        subscribe();
+    })
+
 /**
  * Event listeners
  */
+let input = elmId('msr-cb-input');
+let placeholder = elmId('msr-cb-placeholder');
 input.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();

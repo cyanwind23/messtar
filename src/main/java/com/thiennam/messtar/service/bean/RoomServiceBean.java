@@ -4,10 +4,12 @@ import com.thiennam.messtar.entity.Room;
 import com.thiennam.messtar.entity.RoomTypeEnum;
 import com.thiennam.messtar.entity.RoomUser;
 import com.thiennam.messtar.entity.User;
+import com.thiennam.messtar.entity.dto.RoomDto;
 import com.thiennam.messtar.repository.RoomRepository;
 import com.thiennam.messtar.repository.RoomUserRepository;
 import com.thiennam.messtar.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,22 +29,21 @@ public class RoomServiceBean implements RoomService {
         // check if room exist
         Room room = findSingleRoomBy2User(user1, user2);
         if (room == null) {
-            room = new Room();
-            room.setType(RoomTypeEnum.SINGLE);
-            room.setCreatedTime(LocalDateTime.now());
+            room = createNewRoom(Arrays.asList(user1, user2), null, RoomTypeEnum.SINGLE, null);
+            if (room != null) {
+                roomRepository.save(room);
+            }
+        }
+    }
 
-            RoomUser roomUser1 = new RoomUser();
-            roomUser1.setUser(user1);
-            roomUser1.setRoom(room);
-
-            RoomUser roomUser2 = new RoomUser();
-            roomUser2.setUser(user2);
-            roomUser2.setRoom(room);
-
-            List<RoomUser> roomUsers = Arrays.asList(roomUser1, roomUser2);
-            room.setRoomUsers(roomUsers);
-
-            roomRepository.save(room);
+    @Override
+    public void addNewMultipleRoom(List<User> users, String roomName, String description) {
+        // check valid room: number of user > 2
+        if (users.size() > 2) {
+            Room room = createNewRoom(users, roomName, RoomTypeEnum.MULTIPLE, description);
+            if (room != null) {
+                roomRepository.save(room);
+            }
         }
     }
 
@@ -65,14 +66,95 @@ public class RoomServiceBean implements RoomService {
         List<RoomUser> roomUsers = roomUserRepository.findByUser(user);
         List<Room> rooms = new ArrayList<>();
         for (RoomUser roomUser : roomUsers) {
-            rooms.add(roomUser.getRoom());
+            Room room = roomUser.getRoom();
+            if (room.getType().equals(RoomTypeEnum.SINGLE)) {
+                setNameForSingleRoom(room, user);
+            }
+            rooms.add(room);
         }
         return rooms;
     }
 
     @Override
-    public Room findById(UUID toRoomId) {
-        Optional<Room> res = roomRepository.findById(toRoomId);
+    public List<Room> findByUserAndTypeSorted(User user, RoomTypeEnum roomType) {
+        List<Room> rooms = findByUser(user);
+        rooms.sort(Comparator.comparing(Room::getLastActive).reversed());
+        List<Room> filtered = new ArrayList<>();
+        for (Room room : rooms) {
+            if (room.getType().equals(roomType)) {
+                filtered.add(room);
+            }
+        }
+        return filtered;
+    }
+
+    private void setNameForSingleRoom(Room room, User user) {
+        for (RoomUser roomUser : room.getRoomUsers()) {
+            if (!roomUser.getUser().equals(user)) {
+                room.setName(roomUser.getUser().getName());
+                break;
+            }
+        }
+    }
+
+    @Override
+    public Room findById(UUID id) {
+        Optional<Room> res = roomRepository.findById(id);
         return res.orElse(null);
+    }
+
+    @Override
+    public List<RoomDto> toDto(List<Room> rooms) {
+        List<RoomDto> out = new ArrayList<>();
+        for (Room room : rooms) {
+            out.add(toDto(room));
+        }
+        return out;
+    }
+
+    @Override
+    public RoomDto toDto(Room room) {
+        RoomDto out = new RoomDto();
+        out.setRoomId(room.getId().toString());
+        out.setName(room.getName());
+        out.setDescription(room.getDescription());
+        out.setCreatedTime(room.getCreatedTime());
+        out.setLastActive(room.getLastActive());
+        out.setType(room.getType().getId());
+
+        List<String> users = new ArrayList<>();
+        for (RoomUser roomUser : room.getRoomUsers()) {
+            users.add(roomUser.getUser().getUsername());
+        }
+        out.setRoomUsers(users);
+        return out;
+    }
+
+    @Nullable
+    private Room createNewRoom(List<User> users, @Nullable String roomName, RoomTypeEnum roomType, @Nullable String description) {
+        if (users.isEmpty()) {
+            return null;
+        }
+        LocalDateTime now = LocalDateTime.now();
+        Room room = new Room();
+        room.setName(roomName);
+        room.setType(roomType);
+        room.setDescription(description);
+        room.setCreatedTime(now);
+        room.setLastActive(now);
+
+        List<RoomUser> roomUsers = new ArrayList<>();
+        for (User user : users) {
+            roomUsers.add(createRoomUser(user, room));
+        }
+        room.setRoomUsers(roomUsers);
+        return room;
+    }
+
+    private RoomUser createRoomUser(User user, Room room) {
+        RoomUser roomUser = new RoomUser();
+        roomUser.setUser(user);
+        roomUser.setRoom(room);
+        return roomUser;
     }
 }
