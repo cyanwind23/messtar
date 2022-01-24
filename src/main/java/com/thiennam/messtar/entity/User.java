@@ -172,4 +172,8 @@ public class User extends StandardEntity {
     public void setLastLogin(LocalDate lastLogin) {
         this.lastLogin = lastLogin;
     }
+
+    public String getName() {
+        return this.firstName + " " + this.lastName;
+    }
 }

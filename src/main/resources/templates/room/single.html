@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/layouts.css">
+    <link rel="stylesheet" href="/css/colors.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/room/messtar.css">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta th:name="_logged_username" th:content="${#authentication.getName()}"/>
+    <title>Room Single</title>
+</head>
+<body class="darkgray-2">
+    <div class="flex-row full-view">
+        <div id="msr-sbm" class="darkgray flex-col fl-sb flc-center-h">
+            <div class="bd-r10 btn-icon">
+                <img src="/img/profile.png" alt="" class="icon">
+            </div>
+            <div>
+                <div class="bd-r10 btn-icon mg-bt-5">
+                    <img src="/img/messages.png" alt="" class="icon">
+                </div>
+                <div th:onclick="|window.location.href='/room/group'|" class="bd-r10 btn-icon mg-bt-5">
+                    <img src="/img/groups.png" alt="" class="icon">
+                </div>
+                <div th:onclick="|window.location.href='/room/messtar'|" id="messtar-room-icon-btn" class="bd-r10 btn-icon">
+                    <img src="/img/robot.png" alt="" class="icon">
+                </div>
+            </div>
+            <div class="bd-r10 btn-icon">
+                <img src="/img/settings.png" alt="" class="icon">
+            </div>
+        </div>
+        <!-- Sidebar list -->
+        <div id="msr-sbl" class="flex-col pd-10 darkgray-1">
+            <div class=" flex-row fl-sb mg-bt-5">
+                <h2 class="no-pdmg pd-bt-10">Messages</h2>
+                <div class="flex-row pd-5">
+                    <img src="/img/plus.png" alt="" class="icon-xs mg-r-10">
+                    <img src="/img/search.png" alt="" class="icon-xs">
+                </div>
+            </div>
+            <div class="hidden">search</div>
+            <div id="msr-cl" class="flex-col mg-t-10 pd-r5 ovfl-at">
+                <div th:if="${rooms}">
+                    <div th:each="room : ${rooms}" data-th-attr="roomId=${room.getRoomId()}" class="bd-r10 menu-item card js-room">
+                        <div class="mg-r-10">
+                            <img src="/img/messages.png" alt="" class="icon-s">
+                        </div>
+                        <div>
+                            <h4 th:text="${room.getNameToDisplay()}" class="no-pdmg fs-16">Room 1</h4>
+                            <p class="no-pdmg fs-s hidden">Lorem ipsum dolor sit</p>
+                        </div>
+                    </div>
+                </div>
+                <div th:unless="${rooms}">
+                    <div class="bd-r10 menu-item card">
+                        <div class="mg-r-10">
+                            <img src="/img/messages.png" alt="" class="icon-s">
+                        </div>
+                        <div>
+                            <h4 class="no-pdmg fs-16">Room 1</h4>
+                            <p class="no-pdmg fs-s hidden">Lorem ipsum dolor sit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Banner zone -->
+        <div id="msr-cz" class="flex-col">
+
+        </div>
+    </div>
+    <script type="module" src="/js/single.js"></script>
+</body>
+</html>
