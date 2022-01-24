@@ -30,7 +30,7 @@
 }
 .btn {
     cursor: pointer;
-    padding: 3;
+    padding: 3px;
 }
 .menu-item {
     cursor: pointer;
@@ -42,4 +42,8 @@
     align-items: center;
     padding: 5px;
     margin-bottom: 5px;
+}
+
+.notify-unseen {
+    color: red;
 }
