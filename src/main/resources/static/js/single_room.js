@@ -1,14 +1,18 @@
 const elmId = (id) => document.getElementById(id);
 const elmClass = (className) => document.getElementsByClassName(className);
 
-/** Load context **/
+/** Load context then load mess for room **/
+let lstMess;
 let roomContext;
 let toUser; // use it for quickly send message in SINGLE room
 let paths = window.location.pathname.split("/")
+
+// Load roomContext
 fetch("/room/context/" + paths[paths.length - 1])
     .then(res => res.json())
     .then(res => {
         roomContext = res;
+        console.log(roomContext);
         // diplayRoomInfo();
     });
 

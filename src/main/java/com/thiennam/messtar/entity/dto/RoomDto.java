@@ -3,7 +3,6 @@ package com.thiennam.messtar.entity.dto;
 import com.google.gson.annotations.SerializedName;
 import com.thiennam.messtar.entity.Message;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +16,9 @@ public class RoomDto {
     @SerializedName("description")
     private String description;
     @SerializedName("createdTime")
-    private LocalDateTime createdTime;
+    private Long createdTime;
     @SerializedName("lastActive")
-    private LocalDateTime lastActive;
+    private Long lastActive;
 
     private List<Message> messages;
 
@@ -57,19 +56,19 @@ public class RoomDto {
         this.description = description;
     }
 
-    public LocalDateTime getCreatedTime() {
+    public Long getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(LocalDateTime createdTime) {
+    public void setCreatedTime(Long createdTime) {
         this.createdTime = createdTime;
     }
 
-    public LocalDateTime getLastActive() {
+    public Long getLastActive() {
         return lastActive;
     }
 
-    public void setLastActive(LocalDateTime lastActive) {
+    public void setLastActive(Long lastActive) {
         this.lastActive = lastActive;
     }
 

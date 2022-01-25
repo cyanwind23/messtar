@@ -52,4 +52,5 @@ public class MessageController {
         }
         return gson.fromJson(payload, MessageDto.class);
     }
+
 }

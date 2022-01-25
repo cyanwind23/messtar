@@ -2,11 +2,14 @@ package com.thiennam.messtar.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.thiennam.messtar.entity.Message;
 import com.thiennam.messtar.entity.Room;
 import com.thiennam.messtar.entity.RoomTypeEnum;
 import com.thiennam.messtar.entity.User;
+import com.thiennam.messtar.entity.dto.MessageDto;
 import com.thiennam.messtar.entity.dto.RoomContext;
 import com.thiennam.messtar.entity.dto.RoomDto;
+import com.thiennam.messtar.service.MessageService;
 import com.thiennam.messtar.service.RoomService;
 import com.thiennam.messtar.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +30,9 @@ public class RoomController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    MessageService messageService;
 
     @GetMapping("/messtar")
     public String messtar() {
@@ -99,6 +102,11 @@ public class RoomController {
             RoomContext roomContext = new RoomContext();
             roomContext.setRoom(roomDto);
             roomContext.setLoggedUser(loggedUser.getUsername());
+
+            List<Message> messages = messageService.find300LatestByRoom(room);
+            List<MessageDto> messageDtos = messageService.toMessageDto(messages, loggedUser);
+            roomContext.setMessages(messageDtos);
+
             Gson gson = new GsonBuilder().create();
             return gson.toJson(roomContext);
         }
@@ -114,4 +122,5 @@ public class RoomController {
         Gson gson = new GsonBuilder().create();
         return gson.toJson(roomDtos);
     }
+
 }

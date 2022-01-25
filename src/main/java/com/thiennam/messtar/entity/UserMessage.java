@@ -5,11 +5,11 @@ import javax.persistence.*;
 @Table(name = "MESSTAR_USER_MESSAGE")
 @Entity(name = "messtar_UserMessage")
 public class UserMessage extends StandardEntity {
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "MESSAGE_ID", nullable = false)
     private Message message;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 

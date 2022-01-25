@@ -49,7 +49,7 @@ public class User extends StandardEntity {
     @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserRole> userRoles;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
