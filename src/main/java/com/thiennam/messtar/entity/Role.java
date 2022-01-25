@@ -15,7 +15,7 @@ public class Role extends StandardEntity {
     @Column(name = "STATUS")
     private String status;
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     List<UserRole> userRoles;
 
     public List<UserRole> getUserRoles() {

@@ -3,6 +3,7 @@ package com.thiennam.messtar.service.bean;
 import com.thiennam.messtar.entity.*;
 import com.thiennam.messtar.entity.dto.UserDto;
 import com.thiennam.messtar.repository.UserRepository;
+import com.thiennam.messtar.repository.UserRoleRepository;
 import com.thiennam.messtar.service.RoleService;
 import com.thiennam.messtar.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class UserServiceBean implements UserService{
 
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private UserRoleRepository userRoleRepository;
 
     @Override
     public User findByUsername(String username) {
@@ -82,4 +85,5 @@ public class UserServiceBean implements UserService{
     public void save(User user) {
         userRepository.save(user);
     }
+
 }

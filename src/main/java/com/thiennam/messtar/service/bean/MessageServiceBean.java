@@ -3,9 +3,11 @@ package com.thiennam.messtar.service.bean;
 import com.thiennam.messtar.entity.*;
 import com.thiennam.messtar.entity.dto.MessageDto;
 import com.thiennam.messtar.repository.MessageRepository;
+import com.thiennam.messtar.repository.UserMessageRepository;
 import com.thiennam.messtar.service.MessageService;
 import com.thiennam.messtar.service.RoomService;
 import com.thiennam.messtar.service.UserService;
+import com.thiennam.messtar.ulti.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +27,35 @@ public class MessageServiceBean implements MessageService {
 
     @Autowired
     MessageRepository messageRepository;
+    @Autowired
+    private UserMessageRepository userMessageRepository;
 
     @Override
-    public MessageDto toMessageDto(Message message) {
+    public MessageDto toMessageDto(Message message, User user) {
         MessageDto messageDto = new MessageDto();
 
+        messageDto.setMessageId(message.getId().toString());
         messageDto.setContent(message.getContent());
         messageDto.setToRoomId(message.getRoom().getId().toString());
         messageDto.setSender(message.getSender().getUsername());
         messageDto.setType(message.getType().getId());
+        messageDto.setCreatedMilis(DateTimeUtil.toMilis(message.getCreatedTime()));
+        messageDto.setModifiedMilis(DateTimeUtil.toMilis(message.getModified()));
+
+        // Status for user
+        UserMessage userMessage = userMessageRepository.findByMessageAndUser(message, user);
+        messageDto.setStatus(userMessage.getStatus().getId());
 
         return messageDto;
+    }
+
+    @Override
+    public List<MessageDto> toMessageDto(List<Message> messages, User user) {
+        List<MessageDto> messageDtos = new ArrayList<>();
+        for (Message message : messages) {
+            messageDtos.add(toMessageDto(message, user));
+        }
+        return messageDtos;
     }
 
     @Override
@@ -82,5 +102,10 @@ public class MessageServiceBean implements MessageService {
         }
         message.setUserMessages(userMessages);
         messageRepository.save(message);
+    }
+
+    @Override
+    public List<Message> find300LatestByRoom(Room room) {
+        return messageRepository.findTop300ByRoomOrderByCreatedTimeDesc(room);
     }
 }

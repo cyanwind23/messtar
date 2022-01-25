@@ -31,7 +31,7 @@ public class MessageController {
     @ResponseBody
     public String sendMessageToUser(@RequestBody String requestBody) {
         MessageDto messageDto = parsePayload(requestBody);
-        messageService.saveFromDto(messageDto);
+//        messageService.saveFromDto(messageDto);
         simpMessagingTemplate.convertAndSendToUser(messageDto.getToUser(), "/queue/message", messageDto);
         return "{\"data\" : \"send OK\"}";
     }
@@ -41,7 +41,7 @@ public class MessageController {
     public String sendMessageToRoom(@RequestBody String requestBody) {
         MessageDto messageDto = parsePayload(requestBody);
         UUID toRoomId = UUID.fromString(messageDto.getToRoomId());
-        messageService.saveFromDto(messageDto);
+//        messageService.saveFromDto(messageDto);
         simpMessagingTemplate.convertAndSend("/room/" + toRoomId, messageDto);
         return "{\"data\" : \"OK\"}";
     }
@@ -52,4 +52,5 @@ public class MessageController {
         }
         return gson.fromJson(payload, MessageDto.class);
     }
+
 }

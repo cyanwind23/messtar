@@ -8,6 +8,7 @@ import com.thiennam.messtar.entity.dto.RoomDto;
 import com.thiennam.messtar.repository.RoomRepository;
 import com.thiennam.messtar.repository.RoomUserRepository;
 import com.thiennam.messtar.service.RoomService;
+import com.thiennam.messtar.ulti.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -118,8 +119,8 @@ public class RoomServiceBean implements RoomService {
         out.setRoomId(room.getId().toString());
         out.setName(room.getName());
         out.setDescription(room.getDescription());
-        out.setCreatedTime(room.getCreatedTime());
-        out.setLastActive(room.getLastActive());
+        out.setCreatedTime(DateTimeUtil.toMilis(room.getCreatedTime()));
+        out.setLastActive(DateTimeUtil.toMilis(room.getLastActive()));
         out.setType(room.getType().getId());
 
         List<String> users = new ArrayList<>();

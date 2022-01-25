@@ -1,14 +1,18 @@
 const elmId = (id) => document.getElementById(id);
 const elmClass = (className) => document.getElementsByClassName(className);
 
-/** Load context **/
+/** Load context then load mess for room **/
+let lstMess;
 let roomContext;
 let toUser; // use it for quickly send message in SINGLE room
 let paths = window.location.pathname.split("/")
+
+// Load roomContext
 fetch("/room/context/" + paths[paths.length - 1])
     .then(res => res.json())
     .then(res => {
         roomContext = res;
+        console.log(roomContext);
         // diplayRoomInfo();
     });
 
@@ -73,10 +77,31 @@ const displayMessage = message => {
     let mess = elmClass("msr-mess-ct")[0];
     mess.innerText = message.content;
 }
-
+const notifyMessage = (message, notify) => {
+    let toRoom;
+    for (let room of roomList) {
+        if (room.getAttribute("roomId") === message.toRoomId) {
+            toRoom = room;
+            break;
+        }
+    }
+    // if option `notify` then add notify that this room has new mess
+    if (notify) {
+        toRoom.classList.add("notify-unseen");
+    }
+    let chatList = elmId("msr-cl");
+    chatList.prepend(toRoom);
+}
 const onReceive = response => {
     console.log(response);
-    displayMessage(JSON.parse(response.body));
+    let message = JSON.parse(response.body)
+    // if coming message is not in this room
+    if (roomContext.room.roomId !== message.toRoomId) {
+        notifyMessage(message, true);
+    } else {
+        notifyMessage(message, false);
+        displayMessage(message);
+    }
 }
 const onError = () => {
     console.log("Connect to Room: failed!");
