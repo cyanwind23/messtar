@@ -78,7 +78,7 @@ body {
 }
 /*********************** Border ***********************/
 .bd-r10 {
-    border: 1px dashed rgba(0, 0, 0, 0.253);
+    /*border: 1px dashed rgba(0, 0, 0, 0.253);*/
     border-radius: 10px;
 }
 
@@ -130,7 +130,9 @@ body {
 .hidden {
     display: none;
 }
-
+.invisible {
+    visibility: hidden;
+}
 /* *********************** Text ***********************/
 .fs-s {
     font-size: 14px;
