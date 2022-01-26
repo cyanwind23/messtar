@@ -16,7 +16,7 @@ public interface MessageService {
 
     Message toMessage(MessageDto messageDto);
 
-    void saveFromDto(MessageDto messageDto);
+    Message saveFromDto(MessageDto messageDto);
 
     List<Message> find300LatestByRoom(Room room);
 }

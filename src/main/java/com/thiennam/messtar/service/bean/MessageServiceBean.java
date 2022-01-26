@@ -80,7 +80,7 @@ public class MessageServiceBean implements MessageService {
     }
 
     @Override
-    public void saveFromDto(MessageDto messageDto) {
+    public Message saveFromDto(MessageDto messageDto) {
         // TODO: can be separate to one more which save for SINGLE room, when toUser != null
         Message message = toMessage(messageDto);
         User sender = message.getSender();
@@ -102,6 +102,7 @@ public class MessageServiceBean implements MessageService {
         }
         message.setUserMessages(userMessages);
         messageRepository.save(message);
+        return message;
     }
 
     @Override

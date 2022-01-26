@@ -1,19 +1,39 @@
+import {Message, MessageGroup} from "./models/Message.js";
+
 const elmId = (id) => document.getElementById(id);
 const elmClass = (className) => document.getElementsByClassName(className);
 
+// TODO: must be unify structure and name of messageDto in all methods and classes
 /** Load context then load mess for room **/
 let lstMess;
+let lastMessGr;
 let roomContext;
 let toUser; // use it for quickly send message in SINGLE room
 let paths = window.location.pathname.split("/")
+let chatView = elmId("msr-cv");
 
-// Load roomContext
+const displayMess = messDto => {
+    let isOwnMess = messDto.sender === roomContext.loggedUser;
+    if (!lastMessGr || lastMessGr.sender !== messDto.sender) {
+        // create new group then display
+        lastMessGr = new MessageGroup(messDto.sender, isOwnMess);
+        chatView.appendChild(lastMessGr.buildDom());
+    }
+    lastMessGr.addMessage(new Message(messDto, isOwnMess).buildDom())
+    // scroll chatView to bottom
+    chatView.scrollTop = chatView.scrollHeight;
+}
+// Load roomContext include messages
 fetch("/room/context/" + paths[paths.length - 1])
     .then(res => res.json())
     .then(res => {
         roomContext = res;
-        console.log(roomContext);
-        // diplayRoomInfo();
+        // console.log(roomContext);
+        lstMess = roomContext.messages.reverse();
+        // TODO: write method that display first 30 messages
+        for (let mess of lstMess) {
+            displayMess(mess);
+        }
     });
 
 /** navigating rooms - room list **/
@@ -56,7 +76,7 @@ const sendMess = text => {
     }
 
     text = validateInput(text);
-    console.log(text);
+    // TODO: [sendMess] - should add time in message payload before send to server, then server must save it
     if (text.length < 1) {return;}
     let message = {
         "sender": roomContext.loggedUser,
@@ -65,7 +85,8 @@ const sendMess = text => {
         "type": "TEXT",
         "content": text
     }
-    console.log(message);
+    // console.log(message);
+    displayMess(message);
     sendRequest("/send/user/", message);
 }
 
@@ -73,14 +94,10 @@ const sendMess = text => {
 // Just subscribe to user and all multiple rooms
 let stompClient;
 let multipleRooms;
-const displayMessage = message => {
-    let mess = elmClass("msr-mess-ct")[0];
-    mess.innerText = message.content;
-}
 const notifyMessage = (message, notify) => {
     let toRoom;
     for (let room of roomList) {
-        if (room.getAttribute("roomId") === message.toRoomId) {
+        if (room.getAttribute("roomId") === message.roomId) {
             toRoom = room;
             break;
         }
@@ -93,14 +110,14 @@ const notifyMessage = (message, notify) => {
     chatList.prepend(toRoom);
 }
 const onReceive = response => {
-    console.log(response);
     let message = JSON.parse(response.body)
     // if coming message is not in this room
-    if (roomContext.room.roomId !== message.toRoomId) {
+    console.log(response, message);
+    if (roomContext.room.roomId !== message.roomId) {
         notifyMessage(message, true);
     } else {
         notifyMessage(message, false);
-        displayMessage(message);
+        displayMess(message);
     }
 }
 const onError = () => {
