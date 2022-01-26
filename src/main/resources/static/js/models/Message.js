@@ -26,11 +26,12 @@ export class Message {
         }
 
         let content = new ElementBuilder().creat("div")
-            .withClass("bd-r10 msr-mess-ct")
+            .withClass("msr-mess-ct darkgray-1 bd-r10")
             .withInnerText(this.content)
             .build();
         let replyIcon = new ElementBuilder().creat("div")
             .withClass("msr-mess-rpl pd-r5 to-btm")
+            .withClass("invisible")
             .withChild(
                 new ElementBuilder().creat("img")
                     .withClass("icon-xxs btn")
@@ -40,6 +41,7 @@ export class Message {
             .build()
         let menuIcon = new ElementBuilder().creat("div")
             .withClass("msr-mess-mn to-btm")
+            .withClass("invisible")
             .withChild(
                 new ElementBuilder().creat("img")
                     .withClass("icon-xxs btn")
@@ -48,6 +50,7 @@ export class Message {
             )
             .build()
         let time = new ElementBuilder().creat("div")
+            .withClass("invisible")
             .withClass(timeClass)
             .withInnerText(DateTimeUtil.toString(this.createdTime))
             .build();
