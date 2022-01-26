@@ -1,5 +1,5 @@
 import {ElementBuilder} from "./ElementBuilder.js";
-import {DateTimeUlti} from "../ulti/DateTimeUlti.js";
+import {DateTimeUtil} from "../util/DateTimeUtil.js";
 
 export class Message {
     constructor(messDto, isOwnMess) {
@@ -9,8 +9,8 @@ export class Message {
         this.toUser = messDto.toUser;
         this.type = messDto.type;
         this.content = messDto.content;
-        this.createdTime = DateTimeUlti.toDateTime(messDto.createdTime);
-        this.modified = DateTimeUlti.toDateTime(messDto.modified);
+        this.createdTime = DateTimeUtil.toDateTime(messDto.createdTime);
+        this.modified = DateTimeUtil.toDateTime(messDto.modified);
         this.status = messDto.status;
         this.isOwnMess = isOwnMess;
     }
@@ -49,7 +49,7 @@ export class Message {
             .build()
         let time = new ElementBuilder().creat("div")
             .withClass(timeClass)
-            .withInnerText(DateTimeUlti.toString(this.createdTime))
+            .withInnerText(DateTimeUtil.toString(this.createdTime))
             .build();
         return new ElementBuilder().creat("div")
             .withClass(cntClass)

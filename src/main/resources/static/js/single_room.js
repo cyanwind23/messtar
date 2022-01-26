@@ -77,13 +77,17 @@ const sendMess = text => {
 
     text = validateInput(text);
     // TODO: [sendMess] - should add time in message payload before send to server, then server must save it
+    // TODO: message may need to set dynamic type
     if (text.length < 1) {return;}
+    let now = Date.now(); // this return milliseconds since 01/01/1970 00:00:00
     let message = {
         "sender": roomContext.loggedUser,
         "roomId": roomContext.room.roomId,
         "toUser": toUser,
         "type": "TEXT",
-        "content": text
+        "content": text,
+        "createdTime": now,
+        "modified" : now
     }
     // console.log(message);
     displayMess(message);

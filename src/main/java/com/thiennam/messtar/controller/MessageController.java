@@ -3,12 +3,11 @@ package com.thiennam.messtar.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.thiennam.messtar.entity.Message;
-import com.thiennam.messtar.entity.UserMessage;
 import com.thiennam.messtar.entity.UserMessageStatusEnum;
 import com.thiennam.messtar.entity.dto.MessageDto;
 import com.thiennam.messtar.service.MessageService;
 import com.thiennam.messtar.service.RoomService;
-import com.thiennam.messtar.ulti.DateTimeUtil;
+import com.thiennam.messtar.util.DateTimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,8 +66,8 @@ public class MessageController {
     }
     private void prepareToSend(Message message, MessageDto messageDto) {
         if (message != null && messageDto != null) {
-            messageDto.setCreatedMilis(DateTimeUtil.toMilis(message.getCreatedTime()));
-            messageDto.setModifiedMilis(DateTimeUtil.toMilis(message.getModified()));
+            messageDto.setCreatedMillis(DateTimeUtil.toMillis(message.getCreatedTime()));
+            messageDto.setModifiedMillis(DateTimeUtil.toMillis(message.getModified()));
             messageDto.setStatus(UserMessageStatusEnum.UNSEEN.getId());
         }
     }

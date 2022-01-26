@@ -16,9 +16,9 @@ public class MessageDto {
     @SerializedName("content")
     private String content;
     @SerializedName("createdTime")
-    private Long createdMilis;
+    private Long createdMillis;
     @SerializedName("modified")
-    private Long modifiedMilis;
+    private Long modifiedMillis;
     @SerializedName("status")
     private String status;
 
@@ -38,20 +38,20 @@ public class MessageDto {
         this.status = status;
     }
 
-    public Long getCreatedMilis() {
-        return createdMilis;
+    public Long getCreatedMillis() {
+        return createdMillis;
     }
 
-    public void setCreatedMilis(Long createdMilis) {
-        this.createdMilis = createdMilis;
+    public void setCreatedMillis(Long createdMillis) {
+        this.createdMillis = createdMillis;
     }
 
-    public Long getModifiedMilis() {
-        return modifiedMilis;
+    public Long getModifiedMillis() {
+        return modifiedMillis;
     }
 
-    public void setModifiedMilis(Long modifiedMilis) {
-        this.modifiedMilis = modifiedMilis;
+    public void setModifiedMillis(Long modifiedMillis) {
+        this.modifiedMillis = modifiedMillis;
     }
 
     public String getSender() {

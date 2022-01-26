@@ -7,7 +7,7 @@ import com.thiennam.messtar.repository.UserMessageRepository;
 import com.thiennam.messtar.service.MessageService;
 import com.thiennam.messtar.service.RoomService;
 import com.thiennam.messtar.service.UserService;
-import com.thiennam.messtar.ulti.DateTimeUtil;
+import com.thiennam.messtar.util.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +39,8 @@ public class MessageServiceBean implements MessageService {
         messageDto.setToRoomId(message.getRoom().getId().toString());
         messageDto.setSender(message.getSender().getUsername());
         messageDto.setType(message.getType().getId());
-        messageDto.setCreatedMilis(DateTimeUtil.toMilis(message.getCreatedTime()));
-        messageDto.setModifiedMilis(DateTimeUtil.toMilis(message.getModified()));
+        messageDto.setCreatedMillis(DateTimeUtil.toMillis(message.getCreatedTime()));
+        messageDto.setModifiedMillis(DateTimeUtil.toMillis(message.getModified()));
 
         // Status for user
         UserMessage userMessage = userMessageRepository.findByMessageAndUser(message, user);
@@ -70,11 +70,11 @@ public class MessageServiceBean implements MessageService {
         message.setType(MessageTypeEnum.fromId(messageDto.getType()));
         message.setContent(messageDto.getContent());
 
-        LocalDateTime now = LocalDateTime.now();
-        message.setModified(now);
-        message.setCreatedTime(now);
+        message.setCreatedTime(DateTimeUtil.toDateTime(messageDto.getCreatedMillis()));
+        message.setModified(DateTimeUtil.toDateTime(messageDto.getModifiedMillis()));
         // Also set for room
-        room.setLastActive(now);
+        // TODO: this will not do if message is not new
+        room.setLastActive(message.getCreatedTime());
 
         return message;
     }
