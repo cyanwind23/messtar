@@ -67,11 +67,7 @@ public class RoomServiceBean implements RoomService {
         List<RoomUser> roomUsers = roomUserRepository.findByUser(user);
         List<Room> rooms = new ArrayList<>();
         for (RoomUser roomUser : roomUsers) {
-            Room room = roomUser.getRoom();
-            if (room.getType().equals(RoomTypeEnum.SINGLE)) {
-                setNameForSingleRoom(room, user);
-            }
-            rooms.add(room);
+            rooms.add(roomUser.getRoom());
         }
         return rooms;
     }
@@ -89,6 +85,18 @@ public class RoomServiceBean implements RoomService {
         return filtered;
     }
 
+    @Override
+    public List<Room> findByUserAndType(User user, RoomTypeEnum roomType) {
+        List<Room> rooms = findByUser(user);
+        List<Room> filtered = new ArrayList<>();
+        for (Room room : rooms) {
+            if (room.getType().equals(roomType)) {
+                filtered.add(room);
+            }
+        }
+        return filtered;
+    }
+
     private void setNameForSingleRoom(Room room, User user) {
         for (RoomUser roomUser : room.getRoomUsers()) {
             if (!roomUser.getUser().equals(user)) {
@@ -96,6 +104,14 @@ public class RoomServiceBean implements RoomService {
                 break;
             }
         }
+    }
+
+    @Override
+    public User findOtherInSingleRoom(Room room, User user) {
+        if (room.getType().equals(RoomTypeEnum.SINGLE)) {
+            return roomRepository.findOtherUserInSingleRoom(room, user);
+        }
+        return null;
     }
 
     @Override
