@@ -9,5 +9,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface RoomRepository extends JpaRepository<Room, UUID> {
-
+    @Query("select r.user from messtar_RoomUser r where r.room = ?1 and r.user <> ?2")
+    User findOtherUserInSingleRoom(Room room, User user);
 }

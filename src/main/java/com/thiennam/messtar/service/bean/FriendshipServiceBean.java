@@ -53,4 +53,9 @@ public class FriendshipServiceBean implements FriendshipService {
         }
         return null;
     }
+
+    @Override
+    public List<Friendship> findAllFriend(User user1) {
+        return friendshipRepository.findByUser1(user1);
+    }
 }

@@ -34,6 +34,12 @@ public class RoomController {
     @Autowired
     MessageService messageService;
 
+    // TODO: will be redirect to other path
+    @GetMapping("")
+    public String redirect() {
+        return "redirect:/room/single";
+    }
+
     @GetMapping("/messtar")
     public String messtar() {
         return "room/messtar";
@@ -43,19 +49,12 @@ public class RoomController {
     public String getSingleRoomMainPage(Model model) {
         User user = getLoggedUser();
         List<Room> rooms = roomService.findByUserAndTypeSorted(user, RoomTypeEnum.SINGLE);
+        // change single room name
+        changeSingleRoomName(rooms, user);
+
         List<RoomDto> roomDtos = roomService.toDto(rooms);
         model.addAttribute("rooms", roomDtos);
         return "room/single";
-    }
-
-    @GetMapping("/single/getrooms")
-    @ResponseBody
-    public String getSingleRoom() {
-        User user = getLoggedUser();
-        List<Room> rooms = roomService.findByUserAndTypeSorted(user, RoomTypeEnum.SINGLE);
-        List<RoomDto> roomDtos = roomService.toDto(rooms);
-        Gson gson = new GsonBuilder().create();
-        return gson.toJson(roomDtos);
     }
 
     @GetMapping("/single/{roomId}")
@@ -72,12 +71,19 @@ public class RoomController {
         if (thisRoom == null) {
             return "error/403";
         }
+        // change single room name
+        changeSingleRoomName(rooms, user);
+
         List<RoomDto> roomDtos = roomService.toDto(rooms);
         model.addAttribute("rooms", roomDtos);
         model.addAttribute("thisRoom", thisRoom);
         return "room/single-room";
     }
-
+    private void changeSingleRoomName(List<Room> rooms, User user) {
+        for (Room room : rooms) {
+            room.setName(roomService.findOtherInSingleRoom(room, user).getName());
+        }
+    }
     private User getLoggedUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedUser = auth.getName();
@@ -113,7 +119,7 @@ public class RoomController {
         return "";
     }
 
-    @GetMapping("/multiple/getrooms")
+    @GetMapping("/multiple/rooms")
     @ResponseBody
     public String getMultipleRoom() {
         User user = getLoggedUser();

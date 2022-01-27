@@ -10,7 +10,7 @@ public class Friendship extends StandardEntity {
     @JoinColumn(name = "USER1", nullable = false)
     private User user1;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER2", nullable = false)
     private User user2;
 

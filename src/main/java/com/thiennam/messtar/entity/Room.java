@@ -20,10 +20,10 @@ public class Room extends StandardEntity {
     @Column(name = "CREATED_TIME", nullable = false)
     private LocalDateTime createdTime;
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "room")
     private List<RoomUser> roomUsers = new ArrayList<>();
 
     @Column(name = "LAST_ACTIVE")
