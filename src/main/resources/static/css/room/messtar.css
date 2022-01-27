@@ -26,6 +26,7 @@
 /* MesStar ChatTitle */
 #msr-ctn-ct {
     height: 55px;
+    min-height: 55px;
 }
 /* MesStar ChatView */
 #msr-cv {
