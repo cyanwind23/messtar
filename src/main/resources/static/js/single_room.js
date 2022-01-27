@@ -49,9 +49,9 @@ for (let room of roomList) {
 
 /** Define POST fetch function **/
 let csrfToken = elmId("_csrf").value;
-const sendRequest = (destination, body) => {
+const sendRequest = (destination, body, method) => {
     let request = new Request(destination, {
-        method: 'POST',
+        method: method,
         headers: new Headers({
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': csrfToken,
@@ -91,7 +91,7 @@ const sendMess = text => {
     }
     // console.log(message);
     displayMess(message);
-    sendRequest("/send/user/", message);
+    sendRequest("/send/user/", message, "POST");
 }
 
 /** Subscribe all chanels **/
@@ -115,8 +115,16 @@ const notifyMessage = (message, notify) => {
 }
 const onReceive = response => {
     let message = JSON.parse(response.body)
+
+    if (message.type === "NOTIFICATION") {
+        // This is single room so ignore notification from multiple room
+        if (!message.roomId) {
+            console.log(message);
+        }
+        return;
+    }
+
     // if coming message is not in this room
-    console.log(response, message);
     if (roomContext.room.roomId !== message.roomId) {
         notifyMessage(message, true);
     } else {
@@ -135,13 +143,16 @@ const onConnected = options => {
 
     // Subscribe for notification
     stompClient.subscribe("/user/queue/message", onReceive);
+
+    // Notify to others that I'm online
+    sendRequest("/online", "", "PUT");
 }
 const subscribe = () => {
     const socket = new SockJS('http://localhost:8080/chat');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, onConnected, onError);
 }
-fetch("/room/multiple/getrooms")
+fetch("/room/multiple/rooms")
     .then(res => res.json())
     .then(res => {
         multipleRooms = res;

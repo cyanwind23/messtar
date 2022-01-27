@@ -1,9 +1,8 @@
 package com.thiennam.messtar.entity;
 
-import org.jetbrains.annotations.NotNull;
-
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +40,10 @@ public class User extends StandardEntity {
     private String status;
 
     @Column(name = "LAST_LOGIN")
-    private LocalDate lastLogin;
+    private LocalDateTime lastLogin;
+
+    @Column(name = "online")
+    private Boolean online;
 
     @OneToMany(mappedBy = "user1", fetch = FetchType.LAZY)
     private List<Friendship> friendships;
@@ -57,6 +59,14 @@ public class User extends StandardEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserMessage> userMessages = new ArrayList<>();
+
+    public Boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(Boolean online) {
+        this.online = online;
+    }
 
     public List<UserMessage> getUserMessages() {
         return userMessages;
@@ -178,11 +188,11 @@ public class User extends StandardEntity {
         this.status = status == null ? null : status.getId();
     }
 
-    public LocalDate getLastLogin() {
+    public LocalDateTime getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(LocalDate lastLogin) {
+    public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
     }
 

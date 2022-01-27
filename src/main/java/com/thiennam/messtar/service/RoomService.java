@@ -22,6 +22,10 @@ public interface RoomService {
 
     List<Room> findByUserAndTypeSorted(User user, RoomTypeEnum roomType);
 
+    List<Room> findByUserAndType(User user, RoomTypeEnum roomType);
+
+    User findOtherInSingleRoom(Room room, User user);
+
     Room findById(UUID id);
 
     List<RoomDto> toDto(List<Room> rooms);

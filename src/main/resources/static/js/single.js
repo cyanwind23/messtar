@@ -47,7 +47,6 @@ for (let room of roomList) {
 //             .then(res => console.log(res))
 //     }
 // }
-// sendRequest("/room/single/getrooms", 'GET');
 
 /**
  * Event listeners
