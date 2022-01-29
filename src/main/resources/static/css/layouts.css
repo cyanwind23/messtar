@@ -130,6 +130,12 @@ body {
 .hidden {
     display: none;
 }
+.pos-rel {
+    position: relative;
+}
+.pos-abs {
+    position: absolute;
+}
 .invisible {
     visibility: hidden;
 }

@@ -51,12 +51,9 @@ for (let room of roomList) {
 let csrfToken = elmId("_csrf").value;
 const sendRequest = (destination, body, method) => {
     let request = new Request(destination, {
-        method: method,
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken,
-        }),
-        body: JSON.stringify(body)
+        method: method, headers: new Headers({
+            'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken,
+        }), body: JSON.stringify(body)
     });
     fetch(request)
         .then(res => res.json())
@@ -78,7 +75,9 @@ const sendMess = text => {
     text = validateInput(text);
     // TODO: [sendMess] - should add time in message payload before send to server, then server must save it
     // TODO: message may need to set dynamic type
-    if (text.length < 1) {return;}
+    if (text.length < 1) {
+        return;
+    }
     let now = Date.now(); // this return milliseconds since 01/01/1970 00:00:00
     let message = {
         "sender": roomContext.loggedUser,
@@ -87,7 +86,7 @@ const sendMess = text => {
         "type": "TEXT",
         "content": text,
         "createdTime": now,
-        "modified" : now
+        "modified": now
     }
     // console.log(message);
     displayMess(message);
@@ -118,8 +117,26 @@ const onReceive = response => {
 
     if (message.type === "NOTIFICATION") {
         // This is single room so ignore notification from multiple room
+        // message not include roomId if single room
         if (!message.roomId) {
-            console.log(message);
+            let friend = message.sender;
+            let room = document.querySelector(`div[uname="${friend}"]`);
+            if (room) {
+                let icon = room.getElementsByClassName("js-online-icon")[0];
+                // TODO: warning, content of notification messages must be unified
+                if (message.content === "online") {
+                    icon.classList.remove("hidden")
+                    icon.classList.add("js-prevent-off")
+                } else {
+                    icon.classList.remove("js-prevent-off");
+                    // wait 30 seconds if user is refresh or redirect
+                    setTimeout(() => {
+                        if (!icon.classList.contains("js-prevent-off")) {
+                            icon.classList.add("hidden");
+                        }
+                    }, 1000 * 30);
+                }
+            }
         }
         return;
     }

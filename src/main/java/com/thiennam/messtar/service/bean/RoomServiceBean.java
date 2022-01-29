@@ -5,9 +5,11 @@ import com.thiennam.messtar.entity.RoomTypeEnum;
 import com.thiennam.messtar.entity.RoomUser;
 import com.thiennam.messtar.entity.User;
 import com.thiennam.messtar.entity.dto.RoomDto;
+import com.thiennam.messtar.entity.dto.UserDto;
 import com.thiennam.messtar.repository.RoomRepository;
 import com.thiennam.messtar.repository.RoomUserRepository;
 import com.thiennam.messtar.service.RoomService;
+import com.thiennam.messtar.service.UserService;
 import com.thiennam.messtar.util.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -24,6 +26,9 @@ public class RoomServiceBean implements RoomService {
 
     @Autowired
     RoomUserRepository roomUserRepository;
+
+    @Autowired
+    UserService userService;
 
     @Override
     public void addNewSingleRoom(User user1, User user2) {
@@ -178,5 +183,26 @@ public class RoomServiceBean implements RoomService {
     @Override
     public List<RoomUser> findUsersByRoom(Room room) {
         return roomUserRepository.findByRoom(room);
+    }
+
+    @Override
+    public RoomDto prepareSingleRoomDtos(Room room, User user) {
+        User friend = roomRepository.findOtherUserInSingleRoom(room, user);
+        UserDto userDto = userService.toUserDto(friend);
+
+        RoomDto roomDto = toDto(room);
+        // display as friend name
+        roomDto.setName(friend.getName());
+        roomDto.setUserDto(userDto);
+        return roomDto;
+    }
+
+    @Override
+    public List<RoomDto> prepareSingleRoomDtos(List<Room> rooms, User user) {
+        List<RoomDto> roomDtos = new ArrayList<>();
+        for (Room room : rooms) {
+            roomDtos.add(prepareSingleRoomDtos(room, user));
+        }
+        return roomDtos;
     }
 }

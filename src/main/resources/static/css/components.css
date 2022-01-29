@@ -47,3 +47,14 @@
 .notify-unseen {
     color: red;
 }
+
+.online-icon {
+    background: forestgreen;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: 3px solid antiquewhite;
+    border-radius: 10px;
+}

@@ -19,6 +19,17 @@ public class RoomDto {
     private Long createdTime;
     @SerializedName("lastActive")
     private Long lastActive;
+    // only for SINGLE room
+    @SerializedName("friend")
+    private UserDto userDto;
+
+    public UserDto getUserDto() {
+        return userDto;
+    }
+
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
+    }
 
     private List<Message> messages;
 

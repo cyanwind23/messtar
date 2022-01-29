@@ -46,10 +46,12 @@
         <div class="hidden">search</div>
         <div class="flex-col mg-t-10 pd-r5 ovfl-at" id="msr-cl">
             <div th:if="${rooms}">
-                <div class="bd-r10 menu-item card js-room" data-th-attr="roomId=${room.getRoomId()}"
+                <div class="bd-r10 menu-item card js-room" data-th-attr="roomId=${room.getRoomId()}, uname=${room.getUserDto().getUsername()}"
                      th:each="room : ${rooms}">
-                    <div class="mg-r-10">
+                    <div class="mg-r-10 bd-r10 pd-r5 pos-rel">
                         <img alt="" class="icon-s" src="/img/messages.png">
+                        <div th:if="${room.getUserDto().isOnline()}" class="online-icon js-online-icon"></div>
+                        <div th:unless="${room.getUserDto().isOnline()}" class="online-icon hidden js-online-icon"></div>
                     </div>
                     <div>
                         <h4 class="no-pdmg fs-16" th:text="${room.getNameToDisplay()}">Room 1</h4>
