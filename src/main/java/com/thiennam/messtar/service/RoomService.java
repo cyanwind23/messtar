@@ -33,4 +33,8 @@ public interface RoomService {
     RoomDto toDto(Room room);
 
     List<RoomUser> findUsersByRoom(Room room);
+
+    RoomDto prepareSingleRoomDtos(Room room, User user);
+
+    List<RoomDto> prepareSingleRoomDtos(List<Room> rooms, User user);
 }

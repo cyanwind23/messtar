@@ -35,12 +35,17 @@ public class UserServiceBean implements UserService{
     @Override
     public UserDto toUserDto(User user) {
         UserDto userDto = new UserDto();
+        userDto.setId(user.getId().toString());
         userDto.setUsername(user.getUsername());
-        userDto.setPassword(user.getPassword());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setEmail(user.getEmail());
-
+        userDto.setDescription(user.getDescription());
+        userDto.setDob(user.getDob());
+        userDto.setGender(userDto.getGender());
+        userDto.setLastLogin(user.getLastLogin());
+        userDto.setPhoneNumber(userDto.getPhoneNumber());
+        userDto.setOnline(user.isOnline());
         return userDto;
     }
 

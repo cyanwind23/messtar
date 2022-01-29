@@ -1,8 +1,6 @@
 package com.thiennam.messtar.util;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 
 public class DateTimeUtil {
     /**
@@ -17,6 +15,9 @@ public class DateTimeUtil {
         return -1L;
     }
 
+    public static long toMillis(LocalDate date) {
+        return toMillis(date == null ? null : LocalDateTime.of(date, LocalTime.of(0, 0, 0)));
+    }
     /**
      * Convert milliseconds to LocalDateTime
      * @param millis - long

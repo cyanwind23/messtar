@@ -49,10 +49,9 @@ public class RoomController {
     public String getSingleRoomMainPage(Model model) {
         User user = getLoggedUser();
         List<Room> rooms = roomService.findByUserAndTypeSorted(user, RoomTypeEnum.SINGLE);
-        // change single room name
-        changeSingleRoomName(rooms, user);
 
-        List<RoomDto> roomDtos = roomService.toDto(rooms);
+        List<RoomDto> roomDtos = roomService.prepareSingleRoomDtos(rooms, user);
+
         model.addAttribute("rooms", roomDtos);
         return "room/single";
     }
@@ -60,30 +59,30 @@ public class RoomController {
     @GetMapping("/single/{roomId}")
     public String displayRoom(@PathVariable(name = "roomId") String roomId, Model model) {
         User user = getLoggedUser();
-        Room thisRoom = null;
+        boolean validRoom = false;
         List<Room> rooms = roomService.findByUserAndTypeSorted(user, RoomTypeEnum.SINGLE);
         // check valid user in this room
         for (Room room : rooms) {
             if (room.getId().toString().equals(roomId)) {
-                thisRoom = room;
+                validRoom = true;
             }
         }
-        if (thisRoom == null) {
+        if (!validRoom) {
             return "error/403";
         }
-        // change single room name
-        changeSingleRoomName(rooms, user);
-
-        List<RoomDto> roomDtos = roomService.toDto(rooms);
+        List<RoomDto> roomDtos = roomService.prepareSingleRoomDtos(rooms, user);
+        // get `thisRoomDto`
+        RoomDto thisRoom = null;
+        for (RoomDto roomDto : roomDtos) {
+            if (roomDto.getRoomId().equals(roomId)) {
+                thisRoom = roomDto;
+            }
+        }
         model.addAttribute("rooms", roomDtos);
         model.addAttribute("thisRoom", thisRoom);
         return "room/single-room";
     }
-    private void changeSingleRoomName(List<Room> rooms, User user) {
-        for (Room room : rooms) {
-            room.setName(roomService.findOtherInSingleRoom(room, user).getName());
-        }
-    }
+
     private User getLoggedUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedUser = auth.getName();
