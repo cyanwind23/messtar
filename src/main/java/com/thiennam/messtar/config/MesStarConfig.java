@@ -9,6 +9,15 @@ public class MesStarConfig {
     private String hostName;
     private String roomSocketDestPrefix;
     private String userSocketDestPrefix;
+    private String storageLocation;
+
+    public String getStorageLocation() {
+        return storageLocation;
+    }
+
+    public void setStorageLocation(String storageLocation) {
+        this.storageLocation = storageLocation;
+    }
 
     public String getHostName() {
         return hostName;

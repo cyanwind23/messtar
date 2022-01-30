@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload files</title>
+</head>
+<body>
+<input type="file">
+<input th:id="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+<button id="upload-btn">Submit</button>
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <input name="file" type="file">
+    <input th:id="${_csrf.parameterName}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+    <button type="submit">Submit</button>
+</form>
+</body>
+<script>
+    let btn = document.getElementById("upload-btn");
+    btn.addEventListener("click", () => {
+        let formData = new FormData();
+        let fileField = document.querySelector('input[type="file"]');
+
+        formData.append('username', 'abc123');
+        formData.append('avatar', fileField.files[0]);
+        console.log(formData, JSON.stringify(formData));
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log('Success:', result);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+</html>
