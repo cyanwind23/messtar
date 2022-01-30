@@ -60,6 +60,17 @@ public class User extends StandardEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserMessage> userMessages = new ArrayList<>();
 
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
+    private List<Resource> resources = new ArrayList<>();
+
+    public List<Resource> getResources() {
+        return resources;
+    }
+
+    public void setResources(List<Resource> resources) {
+        this.resources = resources;
+    }
+
     public Boolean isOnline() {
         return online;
     }
