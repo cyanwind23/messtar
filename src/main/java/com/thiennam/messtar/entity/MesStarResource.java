@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Table(name = "MESSTAR_RESOURCE")
 @Entity(name = "messtar_Resource")
-public class Resource extends StandardEntity {
+public class MesStarResource extends StandardEntity {
     @Column(name = "name")
     private String name;
 
@@ -46,12 +46,12 @@ public class Resource extends StandardEntity {
         this.path = path;
     }
 
-    public FileExtEnum getType() {
-        return FileExtEnum.fromId(type);
+    public String getType() {
+        return type;
     }
 
-    public void setType(FileExtEnum type) {
-        this.type = type == null ? FileExtEnum.OTHER.getId() : type.getId();
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {

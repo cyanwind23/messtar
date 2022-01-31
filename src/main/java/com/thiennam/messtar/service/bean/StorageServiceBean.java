@@ -1,10 +1,14 @@
 package com.thiennam.messtar.service.bean;
 
+import com.thiennam.messtar.entity.MesStarResource;
 import com.thiennam.messtar.service.StorageService;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -47,6 +51,25 @@ public class StorageServiceBean implements StorageService {
             }
         }
         return path;
+    }
+
+    @Override
+    public Resource getFile(MesStarResource res) {
+        try {
+            Path path = Paths.get(res.getPath() + "/" + res.getId());
+
+            Resource resource = new UrlResource(path.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            }
+            else {
+                System.out.println("Could not read file: ");
+            }
+        }
+        catch (MalformedURLException e) {
+            System.out.println("Could not read file: ");
+        }
+        return null;
     }
 
     private String createPath(LocalDateTime now) {

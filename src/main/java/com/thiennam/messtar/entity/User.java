@@ -61,14 +61,14 @@ public class User extends StandardEntity {
     private List<UserMessage> userMessages = new ArrayList<>();
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
-    private List<Resource> resources = new ArrayList<>();
+    private List<MesStarResource> mesStarResources = new ArrayList<>();
 
-    public List<Resource> getResources() {
-        return resources;
+    public List<MesStarResource> getResources() {
+        return mesStarResources;
     }
 
-    public void setResources(List<Resource> resources) {
-        this.resources = resources;
+    public void setResources(List<MesStarResource> mesStarResources) {
+        this.mesStarResources = mesStarResources;
     }
 
     public Boolean isOnline() {

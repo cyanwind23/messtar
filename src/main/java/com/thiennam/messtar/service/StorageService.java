@@ -1,5 +1,7 @@
 package com.thiennam.messtar.service;
 
+import com.thiennam.messtar.entity.MesStarResource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
@@ -11,4 +13,6 @@ public interface StorageService {
     boolean saveFile(String fileName, MultipartFile file, Path dest);
     void saveFiles(List<MultipartFile> files, Path dest);
     Path getPath(LocalDateTime now);
+
+    Resource getFile(MesStarResource res);
 }

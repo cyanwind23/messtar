@@ -1,16 +1,16 @@
 package com.thiennam.messtar.service.bean;
 
-import com.thiennam.messtar.entity.FileExtEnum;
-import com.thiennam.messtar.entity.Resource;
+import com.thiennam.messtar.entity.MesStarResource;
 import com.thiennam.messtar.entity.User;
 import com.thiennam.messtar.repository.ResourceRepository;
 import com.thiennam.messtar.service.ResourceService;
-import com.thiennam.messtar.util.ResourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service(value = ResourceService.NAME)
 public class ResourceServiceBean implements ResourceService {
@@ -18,19 +18,25 @@ public class ResourceServiceBean implements ResourceService {
     ResourceRepository resourceRepository;
 
     @Override
-    public Resource save(Resource resource) {
-        return resourceRepository.save(resource);
+    public MesStarResource save(MesStarResource mesStarResource) {
+        return resourceRepository.save(mesStarResource);
     }
 
     @Override
-    public Resource init(User uploader, MultipartFile file, String dest, LocalDateTime createdTime) {
-        Resource out = new Resource();
+    public MesStarResource init(User uploader, MultipartFile file, String dest, LocalDateTime createdTime) {
+        MesStarResource out = new MesStarResource();
         out.setName(file.getOriginalFilename());
-        out.setType(FileExtEnum.fromId(ResourceUtil.getFileExt(file.getOriginalFilename())));
+        out.setType(file.getContentType());
         out.setOwner(uploader);
         out.setPath(dest);
         out.setCreatedTime(createdTime);
 
         return out;
+    }
+
+    @Override
+    public MesStarResource findById(UUID id) {
+        Optional<MesStarResource> res = resourceRepository.findById(id);
+        return res.orElse(null);
     }
 }
