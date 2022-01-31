@@ -62,7 +62,7 @@ public class HomeController {
 
     @GetMapping("/test")
     public String test() {
-        return "room/test";
+        return "test";
     }
 
     @GetMapping("/fetchallroom/{loggedUser}")
