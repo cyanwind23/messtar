@@ -19,16 +19,4 @@ class MessageServiceBeanTest {
     @Autowired
     MessageService messageService;
 
-    @Test
-    void saveFromDto() {
-        // Init message dto
-        MessageDto messageDto = new MessageDto();
-        messageDto.setSender("thiennam23");
-        messageDto.setToRoomId("1aa8c000-4901-4ea3-a58d-e6ac92cfde04");
-        messageDto.setType("TEXT");
-        messageDto.setToUser("tiankoob23");
-        messageDto.setContent("Hello");
-
-        messageService.saveFromDto(messageDto);
-    }
 }

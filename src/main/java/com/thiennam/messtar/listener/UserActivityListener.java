@@ -6,6 +6,7 @@ import com.thiennam.messtar.entity.Room;
 import com.thiennam.messtar.entity.RoomTypeEnum;
 import com.thiennam.messtar.entity.User;
 import com.thiennam.messtar.entity.dto.MessageDto;
+import com.thiennam.messtar.entity.dto.UserDto;
 import com.thiennam.messtar.service.FriendshipService;
 import com.thiennam.messtar.service.RoomService;
 import com.thiennam.messtar.service.UserService;
@@ -41,13 +42,14 @@ public class UserActivityListener implements ApplicationListener<SessionDisconne
             User user = userService.findByUsername(username);
             user.setOnline(false);
 
-            MessageDto messageDto = buildOfflineNotification(user.getUsername());
+            MessageDto messageDto = buildOfflineNotification(userService.toUserDto(user));
             // notify to all friends
             List<Friendship> friends = friendshipService.findAllFriend(user);
             for (Friendship friend : friends) {
-                String toFriend = friend.getUser2().getUsername();
+                UserDto toFriend = userService.toUserDto(friend.getUser2());
+
                 messageDto.setToUser(toFriend);
-                messManager.sendToUser(toFriend, messageDto);
+                messManager.sendToUser(toFriend.getUsername(), messageDto);
             }
             // clear messageDto toUser for Room
             messageDto.setToUser(null);
@@ -62,7 +64,7 @@ public class UserActivityListener implements ApplicationListener<SessionDisconne
         }
     }
 
-    private MessageDto buildOfflineNotification(String sender) {
+    private MessageDto buildOfflineNotification(UserDto sender) {
         MessageDto mess = new MessageDto();
         mess.setSender(sender);
         mess.setType("NOTIFICATION");

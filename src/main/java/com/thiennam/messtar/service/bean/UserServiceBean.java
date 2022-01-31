@@ -39,6 +39,9 @@ public class UserServiceBean implements UserService{
         userDto.setUsername(user.getUsername());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
+        // set avatar
+        MesStarResource avt = user.getAvatar();
+        userDto.setAvatarId(avt == null ? "/img/profile.png" : "/storage?rid=" + avt.getId().toString());
         userDto.setEmail(user.getEmail());
         userDto.setDescription(user.getDescription());
         userDto.setDob(user.getDob());

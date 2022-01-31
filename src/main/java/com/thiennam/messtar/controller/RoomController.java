@@ -2,10 +2,7 @@ package com.thiennam.messtar.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.thiennam.messtar.entity.Message;
-import com.thiennam.messtar.entity.Room;
-import com.thiennam.messtar.entity.RoomTypeEnum;
-import com.thiennam.messtar.entity.User;
+import com.thiennam.messtar.entity.*;
 import com.thiennam.messtar.entity.dto.MessageDto;
 import com.thiennam.messtar.entity.dto.RoomContext;
 import com.thiennam.messtar.entity.dto.RoomDto;
@@ -65,6 +62,7 @@ public class RoomController {
         for (Room room : rooms) {
             if (room.getId().toString().equals(roomId)) {
                 validRoom = true;
+                break;
             }
         }
         if (!validRoom) {
@@ -96,22 +94,19 @@ public class RoomController {
         User loggedUser = getLoggedUser();
 
         Room room = roomService.findById(UUID.fromString(roomId));
-        RoomDto roomDto = roomService.toDto(room);
-        for (String username : roomDto.getRoomUsers()) {
-            if (username.equals(loggedUser.getUsername())) {
+        // prevent user who is not a member of this room get roomContext
+        for (RoomUser roomUser : room.getRoomUsers()) {
+            User user = roomUser.getUser();
+            if (user.equals(loggedUser)) {
                 invalidRequest = false;
                 break;
             }
         }
         if (!invalidRequest) { // continue
-            RoomContext roomContext = new RoomContext();
-            roomContext.setRoom(roomDto);
-            roomContext.setLoggedUser(loggedUser.getUsername());
-
             List<Message> messages = messageService.find300LatestByRoom(room);
             List<MessageDto> messageDtos = messageService.toMessageDto(messages, loggedUser);
-            roomContext.setMessages(messageDtos);
 
+            RoomContext roomContext = roomService.prepareContext(room, loggedUser, messageDtos);
             Gson gson = new GsonBuilder().create();
             return gson.toJson(roomContext);
         }

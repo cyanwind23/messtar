@@ -17,6 +17,8 @@ public class UserDto {
     private String password;
     @SerializedName("lastName")
     private String lastName;
+    @SerializedName("avatarId")
+    private String avatarId;
     @SerializedName("email")
     private String email;
     @SerializedName("description")
@@ -31,6 +33,14 @@ public class UserDto {
     private Boolean online;
     @SerializedName("lastLogin")
     private Long lastLogin;
+
+    public String getAvatarId() {
+        return avatarId;
+    }
+
+    public void setAvatarId(String avatarId) {
+        this.avatarId = avatarId;
+    }
 
     public String getDescription() {
         return description;

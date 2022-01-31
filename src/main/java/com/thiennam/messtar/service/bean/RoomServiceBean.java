@@ -1,9 +1,8 @@
 package com.thiennam.messtar.service.bean;
 
-import com.thiennam.messtar.entity.Room;
-import com.thiennam.messtar.entity.RoomTypeEnum;
-import com.thiennam.messtar.entity.RoomUser;
-import com.thiennam.messtar.entity.User;
+import com.thiennam.messtar.entity.*;
+import com.thiennam.messtar.entity.dto.MessageDto;
+import com.thiennam.messtar.entity.dto.RoomContext;
 import com.thiennam.messtar.entity.dto.RoomDto;
 import com.thiennam.messtar.entity.dto.UserDto;
 import com.thiennam.messtar.repository.RoomRepository;
@@ -102,15 +101,6 @@ public class RoomServiceBean implements RoomService {
         return filtered;
     }
 
-    private void setNameForSingleRoom(Room room, User user) {
-        for (RoomUser roomUser : room.getRoomUsers()) {
-            if (!roomUser.getUser().equals(user)) {
-                room.setName(roomUser.getUser().getName());
-                break;
-            }
-        }
-    }
-
     @Override
     public User findOtherInSingleRoom(Room room, User user) {
         if (room.getType().equals(RoomTypeEnum.SINGLE)) {
@@ -144,11 +134,14 @@ public class RoomServiceBean implements RoomService {
         out.setLastActive(DateTimeUtil.toMillis(room.getLastActive()));
         out.setType(room.getType().getId());
 
-        List<String> users = new ArrayList<>();
-        for (RoomUser roomUser : room.getRoomUsers()) {
-            users.add(roomUser.getUser().getUsername());
+        if (room.getType().equals(RoomTypeEnum.MULTIPLE)) {
+            List<UserDto> users = new ArrayList<>();
+            for (RoomUser roomUser : room.getRoomUsers()) {
+                users.add(userService.toUserDto(roomUser.getUser()));
+            }
+            out.setMembers(users);
         }
-        out.setRoomUsers(users);
+
         return out;
     }
 
@@ -186,14 +179,12 @@ public class RoomServiceBean implements RoomService {
     }
 
     @Override
-    public RoomDto prepareSingleRoomDtos(Room room, User user) {
+    public RoomDto prepareSingleRoomDto(Room room, User user) {
         User friend = roomRepository.findOtherUserInSingleRoom(room, user);
-        UserDto userDto = userService.toUserDto(friend);
-
         RoomDto roomDto = toDto(room);
         // display as friend name
         roomDto.setName(friend.getName());
-        roomDto.setUserDto(userDto);
+        roomDto.setFriend(userService.toUserDto(friend));
         return roomDto;
     }
 
@@ -201,8 +192,25 @@ public class RoomServiceBean implements RoomService {
     public List<RoomDto> prepareSingleRoomDtos(List<Room> rooms, User user) {
         List<RoomDto> roomDtos = new ArrayList<>();
         for (Room room : rooms) {
-            roomDtos.add(prepareSingleRoomDtos(room, user));
+            roomDtos.add(prepareSingleRoomDto(room, user));
         }
         return roomDtos;
+    }
+
+    @Override
+    public RoomContext prepareContext(Room room, User loggedUser, List<MessageDto> messageDtos) {
+        RoomContext out = new RoomContext();
+        UserDto loggedUserDto = userService.toUserDto(loggedUser);
+        RoomDto roomDto;
+        if (room.getType().equals(RoomTypeEnum.SINGLE)) {
+            roomDto = prepareSingleRoomDto(room, loggedUser);
+        } else {
+            roomDto = toDto(room);
+        }
+        out.setRoom(roomDto);
+        out.setLoggedUser(loggedUserDto);
+        out.setMessages(messageDtos);
+
+        return out;
     }
 }

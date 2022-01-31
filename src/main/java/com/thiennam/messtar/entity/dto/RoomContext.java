@@ -2,6 +2,7 @@ package com.thiennam.messtar.entity.dto;
 
 import com.google.gson.annotations.SerializedName;
 import com.thiennam.messtar.entity.Message;
+import com.thiennam.messtar.entity.User;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class RoomContext {
     @SerializedName("room")
     private RoomDto room;
     @SerializedName("loggedUser")
-    private String loggedUser;
+    private UserDto loggedUser;
     @SerializedName("messages")
     private List<MessageDto> messages;
 
@@ -29,11 +30,11 @@ public class RoomContext {
         this.room = room;
     }
 
-    public String getLoggedUser() {
+    public UserDto getLoggedUser() {
         return loggedUser;
     }
 
-    public void setLoggedUser(String loggedUser) {
+    public void setLoggedUser(UserDto loggedUser) {
         this.loggedUser = loggedUser;
     }
 }

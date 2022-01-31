@@ -11,7 +11,7 @@
     <!-- Library for SockJS and Stomp -->
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <title th:text="${thisRoom.getName()}">Room</title>
+    <title>MesStar</title>
 </head>
 <body class="darkgray-2">
 <div class="flex-row full-view">
@@ -46,12 +46,12 @@
         <div class="hidden">search</div>
         <div class="flex-col mg-t-10 pd-r5 ovfl-at" id="msr-cl">
             <div th:if="${rooms}">
-                <div class="bd-r10 menu-item card js-room" data-th-attr="roomId=${room.getRoomId()}, uname=${room.getUserDto().getUsername()}"
+                <div class="bd-r10 menu-item card js-room" data-th-attr="roomId=${room.getRoomId()}, uname=${room.getFriend().getUsername()}"
                      th:each="room : ${rooms}">
                     <div class="mg-r-10 bd-r10 pd-r5 pos-rel">
-                        <img alt="" class="icon-s" src="/img/messages.png">
-                        <div th:if="${room.getUserDto().isOnline()}" class="online-icon js-online-icon"></div>
-                        <div th:unless="${room.getUserDto().isOnline()}" class="online-icon hidden js-online-icon"></div>
+                        <img alt="" class="icon-s" th:src="${room.getFriend().getAvatarId()}">
+                        <div th:if="${room.getFriend().isOnline()}" class="online-icon js-online-icon"></div>
+                        <div th:unless="${room.getFriend().isOnline()}" class="online-icon hidden js-online-icon"></div>
                     </div>
                     <div>
                         <h4 class="no-pdmg fs-16" th:text="${room.getNameToDisplay()}">Room 1</h4>

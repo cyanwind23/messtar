@@ -4,6 +4,8 @@ import com.thiennam.messtar.entity.Room;
 import com.thiennam.messtar.entity.RoomTypeEnum;
 import com.thiennam.messtar.entity.RoomUser;
 import com.thiennam.messtar.entity.User;
+import com.thiennam.messtar.entity.dto.MessageDto;
+import com.thiennam.messtar.entity.dto.RoomContext;
 import com.thiennam.messtar.entity.dto.RoomDto;
 
 import java.util.List;
@@ -34,7 +36,9 @@ public interface RoomService {
 
     List<RoomUser> findUsersByRoom(Room room);
 
-    RoomDto prepareSingleRoomDtos(Room room, User user);
+    RoomDto prepareSingleRoomDto(Room room, User user);
 
     List<RoomDto> prepareSingleRoomDtos(List<Room> rooms, User user);
+
+    RoomContext prepareContext(Room room, User loggedUser, List<MessageDto> messageDtos);
 }

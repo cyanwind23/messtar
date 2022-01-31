@@ -1,7 +1,6 @@
 package com.thiennam.messtar.entity.dto;
 
 import com.google.gson.annotations.SerializedName;
-import com.thiennam.messtar.entity.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,21 +18,20 @@ public class RoomDto {
     private Long createdTime;
     @SerializedName("lastActive")
     private Long lastActive;
-    // only for SINGLE room
+    // for SINGLE room
     @SerializedName("friend")
-    private UserDto userDto;
+    private UserDto friend;
+    // for MULTIPLE room
+    @SerializedName("members")
+    private List<UserDto> members = new ArrayList<>();
 
-    public UserDto getUserDto() {
-        return userDto;
+    public UserDto getFriend() {
+        return friend;
     }
 
-    public void setUserDto(UserDto userDto) {
-        this.userDto = userDto;
+    public void setFriend(UserDto friend) {
+        this.friend = friend;
     }
-
-    private List<Message> messages;
-
-    private List<String> roomUsers = new ArrayList<>();
 
     public String getRoomId() {
         return roomId;
@@ -83,20 +81,12 @@ public class RoomDto {
         this.lastActive = lastActive;
     }
 
-    public List<Message> getMessages() {
-        return messages;
+    public List<UserDto> getMembers() {
+        return members;
     }
 
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
-    }
-
-    public List<String> getRoomUsers() {
-        return roomUsers;
-    }
-
-    public void setRoomUsers(List<String> roomUsers) {
-        this.roomUsers = roomUsers;
+    public void setMembers(List<UserDto> members) {
+        this.members = members;
     }
     public String getNameToDisplay() {
         return name.length() > 16 ? name.substring(0, 16) : name;

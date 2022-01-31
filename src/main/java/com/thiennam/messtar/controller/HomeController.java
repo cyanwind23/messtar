@@ -82,13 +82,14 @@ public class HomeController {
         User user = getLoggedUser();
         user.setOnline(true);
 
-        MessageDto messageDto = buildOnlineNotification(user.getUsername());
+        UserDto sender = userService.toUserDto(user);
+        MessageDto messageDto = buildOnlineNotification(sender);
         // notify to all friends
         List<Friendship> friends = friendshipService.findAllFriend(user);
         for (Friendship friend : friends) {
-            String toFriend = friend.getUser2().getUsername();
+            UserDto toFriend = userService.toUserDto(friend.getUser2());
             messageDto.setToUser(toFriend);
-            messManager.sendToUser(toFriend, messageDto);
+            messManager.sendToUser(toFriend.getUsername(), messageDto);
         }
         // clear messageDto toUser for Room
         messageDto.setToUser(null);
@@ -103,7 +104,7 @@ public class HomeController {
         return "{\"data\" : \"OK\"}";
     }
 
-    private MessageDto buildOnlineNotification(String sender) {
+    private MessageDto buildOnlineNotification(UserDto sender) {
         MessageDto mess = new MessageDto();
         mess.setSender(sender);
         mess.setType("NOTIFICATION");
