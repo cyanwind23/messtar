@@ -74,7 +74,7 @@ export class MessageGroup {
                 new ElementBuilder().creat("img")
                     .withClass("icon-s")
                     // TODO: change to user avatar url here
-                    .withAttribute("src", "/img/messages.png")
+                    .withAttribute("src", this.sender.avatarId)
                     .build()
             )
             .build()

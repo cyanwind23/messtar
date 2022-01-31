@@ -13,8 +13,8 @@ let paths = window.location.pathname.split("/")
 let chatView = elmId("msr-cv");
 
 const displayMess = messDto => {
-    let isOwnMess = messDto.sender === roomContext.loggedUser;
-    if (!lastMessGr || lastMessGr.sender !== messDto.sender) {
+    let isOwnMess = messDto.sender.username === roomContext.loggedUser.username;
+    if (!lastMessGr || lastMessGr.sender.username !== messDto.sender.username) {
         // create new group then display
         lastMessGr = new MessageGroup(messDto.sender, isOwnMess);
         chatView.appendChild(lastMessGr.buildDom());
@@ -28,7 +28,7 @@ fetch("/room/context/" + paths[paths.length - 1])
     .then(res => res.json())
     .then(res => {
         roomContext = res;
-        // console.log(roomContext);
+        console.log(roomContext);
         lstMess = roomContext.messages.reverse();
         // TODO: write method that display first 30 messages
         for (let mess of lstMess) {
@@ -65,11 +65,7 @@ const validateInput = text => {
 }
 const sendMess = text => {
     if (!toUser) {
-        for (let user of roomContext.room.roomUsers) {
-            if (user !== roomContext.loggedUser) {
-                toUser = user;
-            }
-        }
+        toUser = roomContext.room.friend;
     }
 
     text = validateInput(text);
@@ -88,7 +84,7 @@ const sendMess = text => {
         "createdTime": now,
         "modified": now
     }
-    // console.log(message);
+    console.log(message);
     displayMess(message);
     sendRequest("/send/user/", message, "POST");
 }
@@ -120,7 +116,7 @@ const onReceive = response => {
         // message not include roomId if single room
         if (!message.roomId) {
             let friend = message.sender;
-            let room = document.querySelector(`div[uname="${friend}"]`);
+            let room = document.querySelector(`div[uname="${friend.username}"]`);
             if (room) {
                 let icon = room.getElementsByClassName("js-online-icon")[0];
                 // TODO: warning, content of notification messages must be unified

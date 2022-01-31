@@ -45,6 +45,10 @@ public class User extends StandardEntity {
     @Column(name = "online")
     private Boolean online;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "avatar_id")
+    private MesStarResource avatar;
+
     @OneToMany(mappedBy = "user1", fetch = FetchType.LAZY)
     private List<Friendship> friendships;
 
@@ -62,6 +66,14 @@ public class User extends StandardEntity {
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
     private List<MesStarResource> mesStarResources = new ArrayList<>();
+
+    public MesStarResource getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(MesStarResource avatar) {
+        this.avatar = avatar;
+    }
 
     public List<MesStarResource> getResources() {
         return mesStarResources;

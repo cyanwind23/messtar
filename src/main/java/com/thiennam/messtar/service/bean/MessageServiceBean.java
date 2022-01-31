@@ -2,6 +2,7 @@ package com.thiennam.messtar.service.bean;
 
 import com.thiennam.messtar.entity.*;
 import com.thiennam.messtar.entity.dto.MessageDto;
+import com.thiennam.messtar.entity.dto.UserDto;
 import com.thiennam.messtar.repository.MessageRepository;
 import com.thiennam.messtar.repository.UserMessageRepository;
 import com.thiennam.messtar.service.MessageService;
@@ -32,12 +33,13 @@ public class MessageServiceBean implements MessageService {
 
     @Override
     public MessageDto toMessageDto(Message message, User user) {
+        UserDto senderDto = userService.toUserDto(message.getSender());
         MessageDto messageDto = new MessageDto();
 
         messageDto.setMessageId(message.getId().toString());
         messageDto.setContent(message.getContent());
         messageDto.setToRoomId(message.getRoom().getId().toString());
-        messageDto.setSender(message.getSender().getUsername());
+        messageDto.setSender(senderDto);
         messageDto.setType(message.getType().getId());
         messageDto.setCreatedMillis(DateTimeUtil.toMillis(message.getCreatedTime()));
         messageDto.setModifiedMillis(DateTimeUtil.toMillis(message.getModified()));
@@ -61,7 +63,7 @@ public class MessageServiceBean implements MessageService {
     @Override
     public Message toMessage(MessageDto messageDto) {
         Room room = roomService.findById(UUID.fromString(messageDto.getToRoomId()));
-        User sender = userService.findByUsername(messageDto.getSender());
+        User sender = userService.findByUsername(messageDto.getSender().getUsername());
 
         Message message = new Message();
         message.setSender(sender);

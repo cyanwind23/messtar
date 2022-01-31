@@ -51,7 +51,7 @@
                          th:each="room : ${rooms}">
                         <div class="mg-r-10 bd-r10 pd-r5 pos-rel">
                             <img alt="" class="icon-s" src="/img/messages.png">
-                            <div th:if="${room.getUserDto().isOnline()}" class="online-icon"></div>
+                            <div th:if="${room.getFriend().isOnline()}" class="online-icon"></div>
                         </div>
                         <div>
                             <h4 class="no-pdmg fs-16" th:text="${room.getNameToDisplay()}">Room 1</h4>

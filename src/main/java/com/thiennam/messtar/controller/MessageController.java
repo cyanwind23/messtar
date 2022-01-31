@@ -37,7 +37,7 @@ public class MessageController {
         MessageDto messageDto = parsePayload(requestBody);
         Message message = messageService.saveFromDto(messageDto);
         prepareToSend(message, messageDto);
-        simpMessagingTemplate.convertAndSendToUser(messageDto.getToUser(), "/queue/message", convert2Json(messageDto));
+        simpMessagingTemplate.convertAndSendToUser(messageDto.getToUser().getUsername(), "/queue/message", convert2Json(messageDto));
         return "{\"data\" : \"send OK\"}";
     }
 
@@ -55,8 +55,6 @@ public class MessageController {
     private MessageDto parsePayload(String payload) {
         if (gson == null) {
             gson = new GsonBuilder().create();
-            Logger logger = LoggerFactory.getLogger(MessageController.class);
-            logger.info("create GSON");
         }
         return gson.fromJson(payload, MessageDto.class);
     }

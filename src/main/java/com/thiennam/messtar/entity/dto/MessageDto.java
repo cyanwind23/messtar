@@ -1,16 +1,17 @@
 package com.thiennam.messtar.entity.dto;
 
 import com.google.gson.annotations.SerializedName;
+import com.thiennam.messtar.entity.User;
 
 public class MessageDto {
     @SerializedName("messageId")
     private String messageId;
     @SerializedName("sender")
-    private String sender;
+    private UserDto sender;
     @SerializedName("roomId")
     private String toRoomId;
     @SerializedName("toUser")
-    private String toUser;
+    private UserDto toUser;
     @SerializedName("type")
     private String type;
     @SerializedName("content")
@@ -54,11 +55,11 @@ public class MessageDto {
         this.modifiedMillis = modifiedMillis;
     }
 
-    public String getSender() {
+    public UserDto getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
+    public void setSender(UserDto sender) {
         this.sender = sender;
     }
 
@@ -70,11 +71,11 @@ public class MessageDto {
         this.toRoomId = toRoomId;
     }
 
-    public String getToUser() {
+    public UserDto getToUser() {
         return toUser;
     }
 
-    public void setToUser(String toUser) {
+    public void setToUser(UserDto toUser) {
         this.toUser = toUser;
     }
 
