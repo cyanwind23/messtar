@@ -31,6 +31,7 @@
 /* MesStar ChatView */
 #msr-cv {
     flex: auto;
+    overflow-x: hidden;
 }
 
 /* MesStar ChatBox */
@@ -80,5 +81,4 @@
     max-width: 500px;
     word-wrap: break-word;
 }
-
 /*********************** MesStar Button ***********************/

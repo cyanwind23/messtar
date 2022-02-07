@@ -12,16 +12,26 @@ let toUser; // use it for quickly send message in SINGLE room
 let paths = window.location.pathname.split("/")
 let chatView = elmId("msr-cv");
 
-const displayMess = messDto => {
+let selectedMess;
+const displayMess = (messDto, temp) => {
     let isOwnMess = messDto.sender.username === roomContext.loggedUser.username;
     if (!lastMessGr || lastMessGr.sender.username !== messDto.sender.username) {
         // create new group then display
-        lastMessGr = new MessageGroup(messDto.sender, isOwnMess);
+        lastMessGr = new MessageGroup(messDto.sender);
         chatView.appendChild(lastMessGr.buildDom());
     }
-    lastMessGr.addMessage(new Message(messDto, isOwnMess).buildDom())
+    let mess = new Message(messDto, isOwnMess).buildDom();
+    if (temp) {
+        mess.classList.add("fade50");
+    }
+    mess.addEventListener("click", () => {
+        selectedMess = mess.getAttribute("mid");
+        console.log(selectedMess);
+    })
+    lastMessGr.addMessage(mess);
     // scroll chatView to bottom
     chatView.scrollTop = chatView.scrollHeight;
+    return mess;
 }
 // Load roomContext include messages
 fetch("/room/context/" + paths[paths.length - 1])
@@ -49,15 +59,14 @@ for (let room of roomList) {
 
 /** Define POST fetch function **/
 let csrfToken = elmId("_csrf").value;
-const sendRequest = (destination, body, method) => {
+const sendRequest = async (destination, body, method) => {
     let request = new Request(destination, {
         method: method, headers: new Headers({
             'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken,
         }), body: JSON.stringify(body)
     });
-    fetch(request)
-        .then(res => res.json())
-        .then(res => console.log(res));
+    let res = await fetch(request);
+    return res.json();
 }
 const validateInput = text => {
     // TODO: `text` need to be validated stronger
@@ -75,7 +84,7 @@ const sendMess = text => {
         return;
     }
     let now = Date.now(); // this return milliseconds since 01/01/1970 00:00:00
-    let message = {
+    let messDto = {
         "sender": roomContext.loggedUser,
         "roomId": roomContext.room.roomId,
         "toUser": toUser,
@@ -84,9 +93,14 @@ const sendMess = text => {
         "createdTime": now,
         "modified": now
     }
-    console.log(message);
-    displayMess(message);
-    sendRequest("/send/user/", message, "POST");
+    console.log(messDto);
+    let message = displayMess(messDto, true);
+    sendRequest("/send/user/", messDto, "POST")
+        .then(res => {
+            message.setAttribute("mid", res.messageId);
+            message.classList.remove("fade50");
+            console.log(res);
+        });
 }
 
 /** Subscribe all chanels **/
@@ -158,7 +172,8 @@ const onConnected = options => {
     stompClient.subscribe("/user/queue/message", onReceive);
 
     // Notify to others that I'm online
-    sendRequest("/online", "", "PUT");
+    sendRequest("/online", "", "PUT")
+        .then(res => console.log(res));
 }
 const subscribe = () => {
     const socket = new SockJS('http://localhost:8080/chat');
@@ -192,3 +207,28 @@ input.addEventListener("input", (e) => {
         placeholder.classList.remove('hidden');
     }
 });
+
+let chatTitleBtn = elmId('msr-ct');
+let chatTitleMenu = elmId('msr-ct-menu');
+let chatTitleMenuCloseBtn = elmId('msr-ct-menu-x');
+
+chatTitleBtn.addEventListener("click", (e) => {
+    chatTitleMenu.classList.toggle('hidden');
+});
+
+chatTitleMenuCloseBtn.addEventListener("click", (e) => {
+    chatTitleMenu.classList.add('hidden');
+});
+
+// Click outside to close
+document.addEventListener("click", () => {
+    let weakElms = elmClass("js-weak-display");
+    for (let elm of weakElms) {
+        elm.classList.add("hidden");
+    }
+
+    weakElms = elmClass("js-weak-visibility");
+    for (let elm of weakElms) {
+        elm.classList.add("invisible");
+    }
+})

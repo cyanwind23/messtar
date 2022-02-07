@@ -42,13 +42,13 @@ body {
 .flex-row {
     display: flex;
     flex-direction: row;
-    overflow: hidden;
+    /*overflow: hidden;*/
     justify-content: center;
 }
 .flex-col {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 /* flex-col center horizontal */
 .flc-center-h {
@@ -81,6 +81,9 @@ body {
     /*border: 1px dashed rgba(0, 0, 0, 0.253);*/
     border-radius: 10px;
 }
+.bd-r5 {
+    border-radius: 5px;
+}
 
 /*********************** Padding & Margin ***********************/
 .no-pdmg {
@@ -98,6 +101,9 @@ body {
 }
 .pd-5 {
     padding: 5px;
+}
+.pd-l10i {
+    padding-left: 10px !important;
 }
 .pd-bt-5 {
     padding-bottom: 5px;
@@ -138,6 +144,9 @@ body {
 }
 .invisible {
     visibility: hidden;
+}
+.fade50{
+    opacity: .5;
 }
 /* *********************** Text ***********************/
 .fs-s {

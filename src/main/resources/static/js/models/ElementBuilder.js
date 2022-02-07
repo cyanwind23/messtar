@@ -45,6 +45,10 @@ export class ElementBuilder {
         }
         return this;
     }
+    withEvent(type, callback) {
+        this.instance.addEventListener(type, callback);
+        return this;
+    }
     build() {
         return this.instance;
     }

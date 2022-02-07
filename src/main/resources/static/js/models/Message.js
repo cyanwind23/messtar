@@ -15,55 +15,40 @@ export class Message {
         this.isOwnMess = isOwnMess;
     }
     buildDom() {
-        // chose style for own mess or other's mess
-        // TODO: it should be added to lib so that we can chose from lib
-        let timeClass = "msr-mess-t to-btm h-min txt-r fs-s";
-        let cntClass = "flex-row bd-r10 msr-mess";
-
-        if (this.isOwnMess) {
-            cntClass = "flex-row fl-rrv bd-r10 msr-mess";
-            timeClass = "msr-mess-t to-btm h-min fs-s";
-        }
+        let messBg = this.isOwnMess ? "cyan" : "darkgray-1";
 
         let content = new ElementBuilder().creat("div")
-            .withClass("msr-mess-ct darkgray-1 bd-r10")
+            .withClass("msr-mess-ct bd-r10")
+            .withClass(messBg)
             .withInnerText(this.content)
             .build();
-        let replyIcon = new ElementBuilder().creat("div")
-            .withClass("msr-mess-rpl pd-r5 to-btm")
-            .withClass("invisible")
-            .withChild(
-                new ElementBuilder().creat("img")
-                    .withClass("icon-xxs btn")
-                    .withAttribute("src", "/img/reply.png")
-                    .build()
-            )
-            .build()
-        let menuIcon = new ElementBuilder().creat("div")
-            .withClass("msr-mess-mn to-btm")
-            .withClass("invisible")
-            .withChild(
-                new ElementBuilder().creat("img")
-                    .withClass("icon-xxs btn")
-                    .withAttribute("src", "/img/more.png")
-                    .build()
-            )
-            .build()
+
+        let menu = new MessageMenu().buildDom();
+
         let time = new ElementBuilder().creat("div")
             .withClass("invisible")
-            .withClass(timeClass)
+            .withClass("msr-mess-t to-btm h-min txt-r fs-s")
             .withInnerText(DateTimeUtil.toString(this.createdTime))
             .build();
-        return new ElementBuilder().creat("div")
-            .withClass(cntClass)
-            .withChildren(content, replyIcon, menuIcon, time)
+        let mess = new ElementBuilder().creat("div")
+            .withClass("flex-row bd-r10 msr-mess")
+            .withChildren(content, menu, time)
+            .withAttribute("mid", this.id)
             .build();
+        mess.addEventListener("mouseover", () => {
+            menu.classList.remove("invisible");
+            time.classList.remove("invisible");
+        });
+        mess.addEventListener("mouseout", () => {
+            menu.classList.add("invisible");
+            time.classList.add("invisible");
+        })
+        return mess;
     }
 }
 
 export class MessageGroup {
-    constructor(sender, isOwnMess) {
-        this.isOwnMess = isOwnMess;
+    constructor(sender) {
         this.sender = sender;
         this.initChildren();
     }
@@ -72,7 +57,7 @@ export class MessageGroup {
             .withClass("mg-l-5 mg-bt-5 bd-r10 to-btm")
             .withChild(
                 new ElementBuilder().creat("img")
-                    .withClass("icon-s")
+                    .withClass("icon-s bd-r5")
                     // TODO: change to user avatar url here
                     .withAttribute("src", this.sender.avatarId)
                     .build()
@@ -87,17 +72,52 @@ export class MessageGroup {
         this.messageCtn.appendChild(message);
     }
     buildDom() {
-        // chose style for own mess or other's mess
-        // TODO: it should be added to lib so that we can chose from lib
-        if (this.isOwnMess) {
-            return new ElementBuilder().creat("div")
-                .withClass("flex-row mg-bt-5")
-                .withChildren(this.messageCtn)
-                .build();
-        }
         return new ElementBuilder().creat("div")
             .withClass("flex-row mg-bt-5")
             .withChildren(this.senderIcon, this.messageCtn)
+            .build();
+    }
+}
+export class MessageMenu {
+    constructor() {
+    }
+    buildDom() {
+        let replyIcon = new ElementBuilder().creat("img")
+            .withClass("icon-xxs btn msr-mess-rpl to-btm")
+            .withAttribute("src", "/img/reply.png")
+            .build()
+
+        let listMenu = [];
+        for (let i = 0; i < 3; i++) {
+            listMenu.push(new ElementBuilder().creat("div")
+                .withClass("btn")
+                .withInnerText("Menu item")
+                .build());
+        }
+        let itemCtn = new ElementBuilder().creat("div")
+            .withClass("mess-menu bd-r10 pd-10 pos-abs darkgray-1")
+            .withClass("invisible")
+            .withAttribute("style", "width: max-content; bottom: 32px; left: 32px")
+            .withChildren(...listMenu)
+            .build();
+
+        return new ElementBuilder().creat("div")
+            .withClass("msr-mess-mn flex-row to-btm pos-rel bd-r10")
+            .withClass("invisible")
+            .withChildren(
+                replyIcon,
+                new ElementBuilder().creat("img")
+                    .withClass("icon-xxs btn pd-l10i")
+                    .withAttribute("src", "/img/more.png")
+                    .withEvent("click", () => {
+                        itemCtn.classList.remove("invisible");
+                    })
+                    .withEvent("mouseover",() => {
+                        itemCtn.classList.add("invisible");
+                    })
+                    .build(),
+                itemCtn
+            )
             .build();
     }
 }

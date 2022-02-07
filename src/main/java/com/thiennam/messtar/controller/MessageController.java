@@ -38,7 +38,7 @@ public class MessageController {
         Message message = messageService.saveFromDto(messageDto);
         prepareToSend(message, messageDto);
         simpMessagingTemplate.convertAndSendToUser(messageDto.getToUser().getUsername(), "/queue/message", convert2Json(messageDto));
-        return "{\"data\" : \"send OK\"}";
+        return String.format("{\"messageId\":\"%s\"}", message.getId());
     }
 
     @PostMapping("/room")
@@ -49,7 +49,7 @@ public class MessageController {
         Message message = messageService.saveFromDto(messageDto);
         prepareToSend(message, messageDto);
         simpMessagingTemplate.convertAndSend("/room/" + toRoomId, convert2Json(messageDto));
-        return "{\"data\" : \"OK\"}";
+        return String.format("{\"messageId\":\"%s\"}", message.getId());
     }
 
     private MessageDto parsePayload(String payload) {
@@ -64,6 +64,7 @@ public class MessageController {
     }
     private void prepareToSend(Message message, MessageDto messageDto) {
         if (message != null && messageDto != null) {
+            messageDto.setMessageId(message.getId().toString());
             messageDto.setCreatedMillis(DateTimeUtil.toMillis(message.getCreatedTime()));
             messageDto.setModifiedMillis(DateTimeUtil.toMillis(message.getModified()));
             messageDto.setStatus(UserMessageStatusEnum.UNSEEN.getId());
